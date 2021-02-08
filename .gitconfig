@@ -1,0 +1,10 @@
+[user]
+    email = gregory.danielson3@gmail.com
+	name = Gregory Danielson
+	signingkey = Gregory Danielson III
+[pull]
+	rebase = false
+[commit]
+	gpgsign = true
+[init]
+	defaultBranch = master

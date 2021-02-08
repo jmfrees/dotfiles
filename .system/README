@@ -1,0 +1,5 @@
+All files here belong under /etc/. These are provided for more quickly and
+easily setting up a new system.
+
+Importantly, they have no home folder analogue, since they generally deal with
+hardware state.

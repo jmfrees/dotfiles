@@ -1,0 +1,22 @@
+! spring splash terminal.sexy generation
+
+*.foreground:   #e4e2e2
+*.background:   #000000
+*.cursorColor:  #e4e2e2
+*.color0:       #000000
+*.color8:       #a8d293
+*.color1:       #131010
+*.color9:       #dca5b1
+*.color2:       #272223
+*.color10:      #e7b7c2
+*.color3:       #423a3c
+*.color11:      #d5b2e1
+*.color4:       #64595b
+*.color12:      #dea8b4
+*.color5:       #8d7e81
+*.color13:      #ca9ad9
+*.color6:       #b5adaf
+*.color14:      #dcc0e6
+*.color7:       #e4e2e2
+*.color15:      #c1daf2
+

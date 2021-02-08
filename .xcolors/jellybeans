@@ -1,0 +1,21 @@
+! alt jellybeans skin
+! very good
+*foreground:  #d3d0c8
+*background:  #121212 
+*cursorColor: #d3d0c8
+*color0:      #2d2d2d 
+*color8:      #515151 
+*color1:      #f2777a 
+*color9:      #ff5f63 
+*color2:      #99cc99 
+*color10:     #94ea94 
+*color3:      #d2a853 
+*color11:     #f0b643 
+*color4:      #6699cc 
+*color12:     #59a2ea 
+*color5:      #cc99cc 
+*color13:     #ea94ea 
+*color6:      #66cccc 
+*color14:     #59eaea 
+*color7:      #d3d0c8 
+*color15:     #f2f0ec 

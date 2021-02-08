@@ -1,0 +1,285 @@
+# i3 config file (v4)
+# Set mod key (Mod1=<Alt>, Mod4=<Super>)
+set $mod Mod4
+
+# Set some programs
+set $terminal st
+set $browser firefox
+
+# ensure floating windows can't exceed screen size
+floating_maximum_size 1920 x 1080
+
+# Font for window titles. Used by bar if bar doesn't have its own font
+font xft:Terminus (TTF), Font Awesome 5 Free, Symbols Nerd font, Unifont 12
+
+# i3 color palette  ( ~/.Xresources file )
+# NOTE: Xresources will not always be the same as term colors
+# depends on $TERM and $SHELL
+#   0/8: black/d_grey,  1/9: red, 2/10: green, 3/11: yellow
+#  4/12: blue, 5/13: purple, 6/14: cyan, 7/15: l_grey/white
+# bg/fg: depends on light/dark theme, usually close to black/white respectively
+set_from_resource $term_background background
+set_from_resource $term_foreground foreground
+set_from_resource $term_color0     color0
+set_from_resource $term_color1     color1
+set_from_resource $term_color2     color2
+set_from_resource $term_color3     color3
+set_from_resource $term_color4     color4
+set_from_resource $term_color5     color5
+set_from_resource $term_color6     color6
+set_from_resource $term_color7     color7
+set_from_resource $term_color8     color8
+set_from_resource $term_color9     color9
+set_from_resource $term_color10    color10
+set_from_resource $term_color11    color11
+set_from_resource $term_color12    color12
+set_from_resource $term_color13    color13
+set_from_resource $term_color14    color14
+set_from_resource $term_color15    color15
+
+# Autostart applications
+# --no-startup-id means i3 will not wait on the app or produce a workspace for it.
+exec --no-startup-id xautolock -time 10 -locker 'i3lock -e -c 222222' # ignore empty pw, set background
+exec --no-startup-id xset -b  # disable keyboard beep
+exec --no-startup-id nm-applet  # network manager tray icon
+exec --no-startup-id blueman-applet  # bluetooth tray icon
+exec --no-startup-id autotiling  # automating tiling layout
+exec --no-startup-id feh --bg-scale --randomize ~/Media/Wallpapers/*  # wallpaper
+# exec --no-startup-id picom  # compositor
+
+# notification shortcuts
+set $lownotif && dunstify --timeout 1500 --urgency low --appname
+set $normalnotif && dunstify --timeout 8000 --urgency normal --appname
+set $criticalnotif && dunstify --timeout 60000 --urgency critical --appname
+
+# audio shortcuts
+set $soundcheck "Sound $(amixer -c 0 -M -D pulse get Master | grep -oPm 1 '(?<=\[)off|on(?=\])')"
+set $volumecheck "Volume $(amixer -c 0 -M -D pulse get Master | grep -oPm 1 '(?<=\[)\d\d?\d?%(?=\])')"
+set $miccheck "Microphone $(amixer -c 0 -M -D pulse get Capture | grep -oPm 1 '(?<=\[)off|on(?=\])')"
+
+# Notify for lock keys changing state; `:` is bash noop, lets me keep && in shortcut
+bindsym --release Caps_Lock exec : $normalnotif "Caps Lock" "$(xset q | grep 'Caps Lock' | awk '{print $4}')"
+bindsym --release Num_Lock exec : $normalnotif "Num Lock" "$(xset q | grep 'Num Lock' | awk '{print $8}')"
+bindsym --release Scroll_Lock exec : $normalnotif "Scroll Lock" "$(xset q | grep 'Scroll Lock' | awk '{print $12}')"
+
+# programs on binds
+bindsym $mod+Return exec $terminal
+bindsym $mod+o exec $browser
+bindsym $mod+Ctrl+l exec i3lock -e -c 222222
+
+# program actions on binds
+# sf = selected font, sb = selected background, nf = normal font, nb = normal background
+bindsym $mod+d exec dmenu_run -g 8 -l 8 -i -fn "Terminus (TTF)" -sf "$term_color7" -sb "$term_color13" -nf "$term_color15" -nb "$term_background"
+bindsym $mod+Shift+b exec feh --bg-scale ~/Media/Wallpapers/blank.jpg $normalnotif "Feh" "Blanking wallpaper"
+bindsym $mod+Shift+w exec feh --bg-scale --randomize ~/Media/Wallpapers/* $normalnotif "Feh" "Changing wallpaper"
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5 $lownotif "Light" "$(light)%"
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5 $lownotif "Light" "$(light)%"
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle $normalnotif "PulseAudio" $soundcheck
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +10% $lownotif "PulseAudio" $volumecheck
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -10% $lownotif "PulseAudio" $volumecheck
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle $normalnotif "PulseAudio" $miccheck
+bindsym $mod+Print exec scrot -q 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took full screenshot"
+bindsym $mod+Ctrl+Print exec scrot -uq 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took screenshot of focused window"
+bindsym $mod+Shift+Print --release exec sleep 0.05 && scrot -sq 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took screenshot of selection"
+# sleep is from Archwiki. Selection border will appear in image if scrot is invoked via wm keybind, unless sleep
+# also, this one won't work without --release. no idea why.
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# switch direction to open new window
+bindsym $mod+q split toggle
+
+# toggle fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout
+bindsym $mod+w layout toggle all
+bindsym $mod+e layout toggle splith splitv
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# toggle sticky, must be floating already
+bindsym $mod+Shift+s sticky toggle
+
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+# disable focus on mouse
+focus_follows_mouse no
+
+# Workspace names
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move focused container to workspace
+bindsym $mod+Ctrl+1 move container to workspace $ws1
+bindsym $mod+Ctrl+2 move container to workspace $ws2
+bindsym $mod+Ctrl+3 move container to workspace $ws3
+bindsym $mod+Ctrl+4 move container to workspace $ws4
+bindsym $mod+Ctrl+5 move container to workspace $ws5
+bindsym $mod+Ctrl+6 move container to workspace $ws6
+bindsym $mod+Ctrl+7 move container to workspace $ws7
+bindsym $mod+Ctrl+8 move container to workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9
+bindsym $mod+Ctrl+0 move container to workspace $ws10
+
+# Move to workspace and bring focused container
+bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
+
+# move whole workspace between outputs
+bindsym $mod+Ctrl+greater move workspace to output right
+bindsym $mod+Ctrl+less move workspace to output left
+
+# scratchpad
+bindsym $mod+minus move scratchpad
+bindsym $mod+plus scratchpad show
+
+# reload config/i3
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# repeating last workspace change will go to previous workspace
+workspace_auto_back_and_forth yes
+
+# Start i3bar+i3status
+bar {
+    i3bar_command i3bar
+    status_command i3status
+    position top
+    separator_symbol "▕ "
+    strip_workspace_numbers no  # never remove workspace numbers
+    colors {
+        background $term_background
+        statusline $term_color15
+        separator  $term_foreground
+
+        # name_of_area     border             backgr.            text
+        focused_workspace  $term_foreground   $term_color12      $term_color7
+        active_workspace   $term_foreground   $term_color5       $term_color7
+        inactive_workspace $term_background   $term_background   $term_color15
+        binding_mode       $term_foreground   $term_color9       $term_color7
+        urgent_workspace   $term_foreground   $term_color1       $term_color7
+    }
+}
+
+# hide/unhide i3status bar
+bindsym $mod+m bar mode toggle
+
+# Theme colors, primarily affects tab/menu bars
+# class                   border             background         text            indicator          child_border
+client.focused            $term_background   $term_color12      $term_color7    $term_color1       $term_foreground
+client.focused_inactive   $term_background   $term_color12      $term_color7    $term_color1       $term_foreground
+client.unfocused          $term_color0       $term_background   $term_color15   $term_color8       $term_color0
+client.urgent             $term_foreground   $term_color1       $term_color7    $term_color1       $term_background
+client.placeholder        $term_foreground   $term_background   $term_color7    $term_background   $term_background
+client.background                            $term_background
+
+# Border style <normal|pixel xx|none>
+default_border pixel 1
+default_floating_border pixel 1
+
+# Hide borders on screen edges none|vertical|horizontal|both|smart
+hide_edge_borders smart
+
+# Smart borders (draw borders around container only if it is not the only container on this workspace)
+# on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
+smart_borders on
+
+# Set inner/outer gaps
+gaps inner 0  # 8
+gaps outer 0  # -2
+
+# Smart gaps (gaps used if only more than one container on the workspace)
+smart_gaps on
+
+# Resize window (these operate on focused window)
+bindsym $mod+r mode "resize"
+mode "resize" {
+    bindsym h resize shrink width 5 px or 5 ppt
+    bindsym j resize grow height 5 px or 5 ppt
+    bindsym k resize shrink height 5 px or 5 ppt
+    bindsym l resize grow width 5 px or 5 ppt
+    bindsym Left resize shrink width 5 px or 5 ppt
+    bindsym Down resize grow height 5 px or 5 ppt
+    bindsym Up resize shrink height 5 px or 5 ppt
+    bindsym Right resize grow width 5 px or 5 ppt
+
+    bindsym Escape mode "default"
+}
+
+set $mode_gaps inner gaps = (shift) +/-/0        outer gaps = (shift) ]/[/p
+bindsym $mod+g mode "$mode_gaps"
+mode "$mode_gaps" {
+    bindsym plus  gaps inner current plus 5
+    bindsym minus gaps inner current minus 5
+    bindsym 0     gaps inner current set 0
+    bindsym Shift+plus  gaps inner all plus 5
+    bindsym Shift+minus gaps inner all minus 5
+    bindsym Shift+0     gaps inner all set 0
+
+    bindsym bracketright        gaps outer current plus 5
+    bindsym bracketleft         gaps outer current minus 5
+    bindsym p                   gaps outer current set 0
+    bindsym Shift+bracketleft   gaps outer all plus 5
+    bindsym Shift+bracketright  gaps outer all minus 5
+    bindsym Shift+p             gaps outer all set 0
+
+    bindsym Escape mode "default"
+}

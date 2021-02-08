@@ -1,0 +1,6 @@
+startup_message off  # remove copyright page
+vbell off    # no flash on error
+defscrollback 10000  # preserve scrollback history
+hardstatus alwayslastline
+hardstatus string '%{= kG}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%m/%d %{W}%C%A%{g}]'
+altscreen on   # fix vim behavior

@@ -1,0 +1,21 @@
+! blaquemagick
+! 8 color mono
+*foreground:   #c5c8c6
+*background:   #1d1f21
+*cursorColor:  #c5c8c6
+*color0:  #1c1c1c
+*color8:  #262626
+*color1:  #5F8787
+*color9:  #5f8787
+*color2:  #424242
+*color10: #424242
+*color3:  #666666
+*color11: #666666
+*color4:  #808080
+*color12: #808080
+*color5:  #a8a8a8
+*color13: #a8a8a8
+*color6:  #cccccc
+*color14: #cccccc
+*color7:  #c2c2b0
+*color15: #c2c2b0
