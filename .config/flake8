@@ -1,0 +1,20 @@
+[flake8]
+
+# The following is a liost of errors pertaining exclusively to formatting.
+# The full list can be found here:
+# https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes
+# 
+# E203 whitespace before ':'
+# E221 multiple spaces before operator
+# E222 multiple spaces after operator
+# E262 inline comment should start with '# '
+# E265 block comment should start with '# '
+# E501 line too long
+# W291 trailing whitespace
+# W503 line break before binary operator
+# W504 line break after binary operator
+
+ignore=E203,E221,E222,E262,E265,E501,W291,W503,W504
+
+max-complexity=5
+max-line-length=80
