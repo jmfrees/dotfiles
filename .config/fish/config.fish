@@ -9,7 +9,7 @@ alias vi=vim
 alias wpm="/home/jmfrees/.local/share/virtualenvs/wpm-gVYDynyg/bin/python -m wpm"
 alias weather="curl wttr.in"
 alias diff='colordiff'
-alias sp='termite & disown'
+alias sp='kitty & disown'
 alias pvim='pdm run vim'
 
 # alias for git directory belonging to my dotfiles
