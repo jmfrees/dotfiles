@@ -9,3 +9,6 @@ alias wpm="/home/jmfrees/.local/share/virtualenvs/wpm-gVYDynyg/bin/python -m wpm
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 starship init fish | source
+
+# Created by `pipx` on 2021-05-15 00:36:32
+set PATH $PATH /home/jmfrees/.local/bin
