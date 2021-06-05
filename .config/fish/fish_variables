@@ -64,9 +64,10 @@ SETUVAR _fish_abbr_vi:vim
 SETUVAR _fish_abbr_vimwiki:vim\x20\x7e/\x2evimwiki/index\x2ewiki
 SETUVAR _fish_abbr_weather:curl\x20\x2ds\x20\x27wttr\x2ein/\x3fformat\x3d\x25c\x2b\x25l\x3a\x2b\x25C\x2b\x25t\x2b\x25w\x2b\x25h\x27\x20\x7c\x20sed\x20\x27s/\x2c\x2e\x2a\x3a/\x3a/g\x27\x20\x3e\x20\x7e/\x2eweather
 SETUVAR _fisher_PatrickF1_2F_fzf_2E_fish_files:/home/jmfrees/\x2econfig/fish/functions/__fzf_extract_var_info\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_preview_file\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_report_file_type\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_search_current_dir\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_search_git_log\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_search_git_status\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_search_history\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__fzf_search_shell_variables\x2efish\x1e/home/jmfrees/\x2econfig/fish/conf\x2ed/fzf\x2efish
+SETUVAR _fisher_franciscolourenco_2F_done_files:/home/jmfrees/\x2econfig/fish/conf\x2ed/done\x2efish
 SETUVAR _fisher_jethrokuan_2F_z_files:/home/jmfrees/\x2econfig/fish/functions/__z\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__z_add\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__z_clean\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__z_complete\x2efish\x1e/home/jmfrees/\x2econfig/fish/conf\x2ed/z\x2efish
 SETUVAR _fisher_joseluisq_2F_gitnow_40_32_2E_38_2E_30__files:/home/jmfrees/\x2econfig/fish/functions/__gitnow_config_file\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__gitnow_functions\x2efish\x1e/home/jmfrees/\x2econfig/fish/functions/__gitnow_manual\x2efish\x1e/home/jmfrees/\x2econfig/fish/conf\x2ed/gitnow\x2efish\x1e/home/jmfrees/\x2econfig/fish/conf\x2ed/gitnow_config\x2efish\x1e/home/jmfrees/\x2econfig/fish/completions/__gitnow_completions\x2efish
-SETUVAR _fisher_plugins:PatrickF1/fzf\x2efish\x1ejethrokuan/z\x1ejoseluisq/gitnow\x402\x2e8\x2e0
+SETUVAR _fisher_plugins:PatrickF1/fzf\x2efish\x1ejethrokuan/z\x1ejoseluisq/gitnow\x402\x2e8\x2e0\x1efranciscolourenco/done
 SETUVAR fish_color_autosuggestion:BD93F9
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:F8F8F2
