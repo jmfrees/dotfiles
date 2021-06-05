@@ -30,6 +30,7 @@ set scrolloff=3                 " show n lines above/below cursor when scrolling
 set sidescrolloff=5             " show n columns to sides when scrolling
 set noerrorbells                " disable error bells
 set novisualbell                " especially disable visual error bell
+set background=dark              " Make Vim use the correct colors in my scheme
 highlight clear SignColumn      " for some reason, sign column wasn't using bgcolor
 
 
@@ -103,6 +104,13 @@ nnoremap <silent> <CR> :noh<CR><CR>
 " only remap if popup menu visible (includes hover...), else Tab
 inoremap <expr> <Tab> pumvisible() ? '<Down>' : '<Tab>'
 
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
 " autocommands
 " remember last edited location when reopening file, if valid
 augroup remember_last_position
@@ -135,7 +143,7 @@ call plug#begin()
     Plug 'Xuyuanp/nerdtree-git-plugin'  " symbols based on git status
     Plug 'ryanoasis/vim-devicons'       " fancy symbols integration
 
-    Plug 'AndrewRadev/linediff.vim'          "diff two different parts of file"
+    Plug 'AndrewRadev/linediff.vim'     "diff two different parts of file"
     Plug 'godlygeek/tabular', { 'for': 'markdown' }
 
     if !g:remoteSession
@@ -146,9 +154,9 @@ call plug#begin()
     endif
 call plug#end()
 
-
-nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)   " jump to errors
-nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+" TODO: Remap these
+" nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)   " jump to errors
+" nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " remaps for plugins
 nnoremap <C-n> :NERDTreeToggle<CR>
@@ -251,6 +259,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1         " show buffer # on t
 let g:airline#extensions#tabline#nametruncate = 16          " max buffer name of 16 chars
 let g:airline#extensions#tabline#fnamecollapse = 2          " only show 2 trunc'd parent dirs
 let g:airline#extensions#branch#displayed_head_limit = 16   " limit branch names to first 16 chars
+let g:airline#extensions#ale#enabled = 1                    " show nice format for ale messages
 
 " markdown-preview.nvim
 let g:mkdp_browser = 'firefox'
