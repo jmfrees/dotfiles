@@ -179,6 +179,7 @@ nmap <silent> <C-s> <Plug>MarkdownPreview           " toggle markdown preview
 " ALE
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
+let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_delay = 750
 let g:ale_completion_delay = 100
 let g:ale_fix_on_save = 1
@@ -220,6 +221,7 @@ let g:ale_fixers =  {
                 \   'vim': ['remove_trailing_lines', 'trim_whitespace'],
                 \   'yaml': ['prettier'],
                 \   }
+let g:ale_virtualenv_dir_names = []
 let g:ale_python_pyls_config = {'pyls': {'plugins': {'pycodestyle': {'enabled': v:false}}}}
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
