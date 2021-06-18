@@ -50,9 +50,6 @@ highlight ALEError cterm=undercurl ctermbg=none ctermul=red
 
 " functional settings
 set nocompatible                " disable vi compatibility
-set foldmethod=indent           " fold based on indent level
-set nofoldenable                " no fold by default
-set conceallevel=3              " fold by default inside 3+ levels of [foldmethod]
 set encoding=utf8               " always write utf-8 encoded files
 set termencoding=utf8           " characters appear in utf-8
 scriptencoding=utf8             " just for this file, since it has multibyte chars
@@ -67,7 +64,6 @@ set mouse=a                     " enable mouse
 set ttymouse=sgr                " change how vim understands mouse inputs
 set splitbelow                  " Open :split buffers on bottom
 set splitright                  " Open :vsplit buffers on right
-set pastetoggle=<F2>            " toggle paste when pressing F2
 set hidden	                    " buffers stay open+edited when not visible
 set ignorecase                  " no case = any case
 set smartcase                   " adding case = case sensitive
@@ -75,17 +71,14 @@ set hlsearch                    " highlight results
 set incsearch                   " jump to nearest result as you search
 filetype plugin indent on       " autoindent+plugins per filetype
 
+tnoremap <c-b> <c-\><c-n>       " Allow scroll mode in :term
+
 
 " formatting settings
-set autoindent                  " newlines inherit indent level
-set smarttab                    " ... but only when sensible
-set expandtab                   " replace tab with space
-set tabstop=4                   " n-width tabs
-set softtabstop=4               " do not enforce tab width on existing tabs
-set shiftwidth=4                " when moving text with [<>], move by n
 set shiftround                  " round 'shift' to shiftwidth
 set textwidth=80                " wrap to new buffer line based on column width.
-set formatoptions+=tc           " auto-formatting based on textwidth; respects comments
+set formatoptions+=c            " auto-formatting based on textwidth; respects comments
+set formatoptions-=t
 set noendofline                 " disable automatically added newline
 
 " information settings
@@ -116,7 +109,7 @@ nnoremap <silent> <CR> :noh<CR><CR>
 
 " janky tab navigation in completion menus
 " only remap if popup menu visible (includes hover...), else Tab
-inoremap <expr> <Tab> pumvisible() ? '<Down>' : '<Tab>'
+inoremap <expr> <S-Tab> pumvisible() ? '<Down>' : '<Tab>'
 
 "split navigations
 nnoremap <C-J> <C-W><C-J>
@@ -132,48 +125,55 @@ augroup remember_last_position
 augroup END
 
 augroup file_settings
-    autocmd FileType svn,*commit* setlocal spell
-    autocmd FileType c,cpp,h,hpp,js,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+    autocmd FileType md,svn,*commit* setlocal spell
 augroup END
 
-
+" Add group from jsx
+augroup FiletypeGroup
+    autocmd!
+    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+augroup END
 
 
 " ALL PLUGIN SETTINGS
 " NOTE: you can :echo glob($VIMRUNTIME . '/ftplugin/*.vim') to see filetypes available
 " NOTE: you can :PlugStatus to see running plugins
 call plug#begin()
-    if has('timers')                    " async feature
-        Plug 'dense-analysis/ale'       " linting, completion, formatting
-    endif
-
+    Plug 'dense-analysis/ale'           " linting, completion, formatting
     Plug 'vimwiki/vimwiki'
-    Plug 'mhinz/vim-startify'           " fancy start screen with recall
-    Plug 'jpalardy/vim-slime'           " send buffer data to [session]
-    Plug 'tpope/vim-fugitive'           " git information and commands
-    Plug 'airblade/vim-gitgutter'       " gitlens for vim
-    Plug 'vim-airline/vim-airline'      " fancy status bar
-    Plug 'preservim/nerdtree'           " file explorer inside vim
-    Plug 'Xuyuanp/nerdtree-git-plugin'  " symbols based on git status
-    Plug 'ryanoasis/vim-devicons'       " fancy symbols integration
+    Plug 'mhinz/vim-startify'                   " fancy start screen with recall
+    Plug 'jpalardy/vim-slime'                   " send buffer data to [session]
+    Plug 'tpope/vim-fugitive'                   " git information and commands
+    Plug 'airblade/vim-gitgutter'               " gitlens for vim
+    Plug 'vim-airline/vim-airline'              " fancy status bar
+    Plug 'preservim/nerdtree'                   " file explorer inside vim
+    Plug 'Xuyuanp/nerdtree-git-plugin'          " symbols based on git status
+    Plug 'ryanoasis/vim-devicons'               " fancy symbols integration
 
-    Plug 'AndrewRadev/linediff.vim'     "diff two different parts of file"
+    Plug 'AndrewRadev/linediff.vim'             " diff two different parts of file
     Plug 'godlygeek/tabular', { 'for': 'markdown' }
+    Plug 'mattn/emmet-vim', { 'for': 'html' }
+    Plug 'tpope/vim-commentary'                 " plugin for commenting code
+    Plug 'tpope/vim-sleuth'                     " auto-adjust tab behavior based on open file
 
+    Plug 'ConradIrwin/vim-bracketed-paste'      " automatic :set paste
+    Plug 'unblevable/quick-scope'               " quicker nav using f/F
+    " Plug 'andersoncustodio/vim-enter-indent'
+    Plug 'tpope/vim-unimpaired'			" better bracket binds
+    Plug 'jiangmiao/auto-pairs'                 " auto match parens
+    " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'honza/vim-snippets'
+
+    Plug 'Shougo/deoplete.nvim'                 " more supported completion popup
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
     if !g:remoteSession
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
         " Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
         Plug 'lervag/vimtex', {'for': ['tex', 'plaintex']}        " LaTeX previewer, \ll to start
-        Plug 'sirver/ultisnips', {'for': ['tex', 'plaintex']}     " faster snippets completion
+        Plug 'sirver/ultisnips'                 " faster snippets completion
     endif
 call plug#end()
-
-" TODO: Remap these
-" nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)   " jump to errors
-" nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
-
-" remaps for plugins
-nnoremap <C-n> :NERDTreeToggle<CR>
 
 nmap <leader>1 <Plug>AirlineSelectTab1      " i3-style buffer selection
 nmap <leader>2 <Plug>AirlineSelectTab2      " better than :b
@@ -189,11 +189,17 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 
 nmap <silent> <C-s> <Plug>MarkdownPreview           " toggle markdown preview
 
+" Git
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gl :Glog<CR>
+
+
 " autocommands for plugins
 " ALE
-let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
+let g:ale_completion_enabled = 0
 let g:ale_completion_autoimport = 1
-let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_delay = 750
 let g:ale_completion_delay = 100
 let g:ale_fix_on_save = 1
@@ -202,16 +208,18 @@ let g:ale_echo_msg_info_str = '🛈 '
 let g:ale_echo_msg_warning_str = '⚠ '
 let g:ale_echo_msg_error_str = '❌'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_linter_aliases = {'jsx': ['javascript']}
 let g:ale_linters = {
                 \   'c': ['cc', 'clangtidy', 'clangd'],
                 \   'cpp': ['cc', 'clangtidy', 'clangd'],
-                \   'css': ['prettier'],
+                \   'css': ['stylelint', 'prettier'],
                 \   'dockerfile': ['hadolint'],
+                \   'html': ['stylelint', 'tidy'],
                 \   'java': ['javac', 'eclipselsp'],
                 \   'javascript': ['eslint', 'tsserver'],
                 \   'json': ['jsonlint'],
                 \   'markdown': ['alex', 'proselint', 'writegood', 'textlint'],
-                \   'python': ['bandit', 'flake8', 'pylint', 'pyls', 'pyright'],
+                \   'python': ['bandit', 'flake8', 'pyls',  'pyright'],
                 \   'rust': ['cargo', 'rls'],
                 \   'sh': ['shell', 'shellcheck', 'language_server'],
                 \   'sql': ['sqlint', 'sql-language-server'],
@@ -224,8 +232,10 @@ let g:ale_fixers =  {
                 \   'cpp': ['clang-format'],
                 \   'css': ['prettier'],
                 \   'dockerfile': [],
+                \   'html': ['prettier'],
                 \   'java': ['google_java_format'],
                 \   'javascript': ['eslint', 'prettier'],
+                \   'typescript': ['tslint'],
                 \   'json': ['prettier'],
                 \   'markdown': ['prettier'],
                 \   'python': ['isort', 'black'],
@@ -236,8 +246,11 @@ let g:ale_fixers =  {
                 \   'yaml': ['prettier'],
                 \   }
 let g:ale_virtualenv_dir_names = []
-let g:ale_python_pyls_config = {'pyls': {'plugins': {'pycodestyle': {'enabled': v:false}}}}
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+noremap <Leader>ad :ALEGoToDefinition<CR>
+noremap <Leader>af :ALEFix<CR>
+noremap <Leader>ar :ALEFindReferences<CR>
+noremap <Leader>ac :ALERename<CR>               " neumonic is 'change'
 
 " vimwiki
 let g:vimwiki_list = [{'path': '~/.vimwiki', 'path_html': '~/public_html'}]
@@ -251,6 +264,26 @@ let g:slime_python_ipython = 1                      " ipython drops inputs witho
 let g:NERDTreeShowHidden=1
 let g:NERDTreeShowLineNumbers=1
 let g:NERDTreeNaturalSort=1
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+" Ignore junk files in NerdTree
+let NERDTreeIgnore=[
+    \ 'node_modules$[[dir]]',
+    \ '.git$[[dir]]',
+    \ '.vscode$[[dir]]',
+    \ '.idea$[[dir]]',
+    \ '.DS_Store$[[file]]',
+    \ '.swp$[[file]]',
+    \ 'hdevtools.sock$[[file]]',
+    \ '.synctex.gz[[file]]',
+    \ '.fls[[file]]',
+    \ '.fdb_latexmk[[file]]',
+    \ '.aux[[file]]'
+\ ]
+
 
 " airline
 if !exists('g:airline_symbols')
@@ -287,55 +320,15 @@ let g:vimtex_view_general_viewer = 'zathura'
 let g:vimtex_compiler_progname = 'tectonic'
 let g:tex_conceal='abdmg'
 
-" let g:vimtex_quickfix_ignore_all_warnings = 1
-" let g:vimtex_quickfix_latexlog = {
-"     \ 'overfull' : 0,
-"     \ 'underfull' : 0,
-"     \}
-
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger = '<C-c>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-z>'
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<c-b>'
+let g:UltiSnipsEditSplit='vertical'
 
-
-
-" vim-instant-markdown
-" let g:instant_markdown_slow = 1
-" let g:instant_markdown_browser = "firefox --new-window"
-" "Uncomment to override defaults:
-" "let g:instant_markdown_slow = 1
-" "let g:instant_markdown_autostart = 0
-" "let g:instant_markdown_open_to_the_world = 1
-" "let g:instant_markdown_allow_unsafe_content = 1
-" "let g:instant_markdown_allow_external_content = 0
-" let g:instant_markdown_mathjax = 1
-" let g:instant_markdown_mermaid = 1
-" "let g:instant_markdown_logfile = '/tmp/instant_markdown.log'
-" "let g:instant_markdown_autoscroll = 1
-
-
-
-" Ignore junk files in NerdTree
-let NERDTreeIgnore=[
-    \ 'node_modules$[[dir]]',
-    \ '.git$[[dir]]',
-    \ '.vscode$[[dir]]',
-    \ '.idea$[[dir]]',
-    \ '.DS_Store$[[file]]',
-    \ '.swp$[[file]]',
-    \ 'hdevtools.sock$[[file]]',
-    \ '.synctex.gz[[file]]',
-    \ '.fls[[file]]',
-    \ '.fdb_latexmk[[file]]',
-    \ '.aux[[file]]'
-\ ]
-
-let NERDTreeShowHidden=1
-let NERDTreeShowBookmarks=1
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+" deoplete
+call deoplete#custom#option('sources', {
+\ '_': ['ale', 'ultisnips'],
+\})
+let g:deoplete#enable_at_startup = 1
