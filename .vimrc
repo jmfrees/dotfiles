@@ -10,6 +10,8 @@ endif
 let g:remoteSession = !($SSH_TTY ==? '')
 if g:remoteSession
     colorscheme slate
+else
+    colorscheme default
 endif
 
 " set :term/:shell program
@@ -30,8 +32,20 @@ set scrolloff=3                 " show n lines above/below cursor when scrolling
 set sidescrolloff=5             " show n columns to sides when scrolling
 set noerrorbells                " disable error bells
 set novisualbell                " especially disable visual error bell
-set background=dark              " Make Vim use the correct colors in my scheme
-highlight clear SignColumn      " for some reason, sign column wasn't using bgcolor
+set background=dark             " Make Vim use the correct colors in my scheme
+set t_RV=''                     " Don't query for terminal version info
+set t_ut=''                     " disable background color erase
+hi clear SignColumn             " for some reason, sign column wasn't using bgcolor
+hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
+hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
+hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
+hi DiffText    cterm=undercurl  ctermfg=Yellow   ctermbg=none
+
+" set ALE to use undercurl settings
+let &t_Cs = "\e[4:3m"           " fix undercurl behavior
+let &t_Ce = "\e[4:0m"           " fix undercurl behavior
+highlight ALEWarning cterm=undercurl ctermbg=none ctermul=blue
+highlight ALEError cterm=undercurl ctermbg=none ctermul=red
 
 
 " functional settings
@@ -256,12 +270,12 @@ let g:airline_symbols.spell = '✓'               " spell mode
 let g:airline_symbols.dirty='*'                 " dirty git buffer
 let g:airline_symbols.notexists = 'Ɇ'
 
+
+let g:airline#extensions#ale#enabled = 1                    " ALE + vim-airline integration
 let g:airline#extensions#tabline#enabled = 1                " display open buffers+tabs on top bar
-let g:airline#extensions#tabline#buffer_nr_show = 1         " show buffer # on tabline
 let g:airline#extensions#tabline#nametruncate = 16          " max buffer name of 16 chars
 let g:airline#extensions#tabline#fnamecollapse = 2          " only show 2 trunc'd parent dirs
 let g:airline#extensions#branch#displayed_head_limit = 16   " limit branch names to first 16 chars
-let g:airline#extensions#ale#enabled = 1                    " show nice format for ale messages
 
 " markdown-preview.nvim
 let g:mkdp_browser = 'firefox'
