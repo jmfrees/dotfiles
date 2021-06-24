@@ -69,6 +69,7 @@ set ignorecase                  " no case = any case
 set smartcase                   " adding case = case sensitive
 set hlsearch                    " highlight results
 set incsearch                   " jump to nearest result as you search
+set clipboard^=unnamedplus      " use system clipboard always
 filetype plugin indent on       " autoindent+plugins per filetype
 
 tnoremap <c-b> <c-\><c-n>       " Allow scroll mode in :term
@@ -223,6 +224,7 @@ let g:ale_linters = {
                 \   'rust': ['cargo', 'rls'],
                 \   'sh': ['shell', 'shellcheck', 'language_server'],
                 \   'sql': ['sqlint', 'sql-language-server'],
+                \   'toml': ['tomlcheck'],
                 \   'vim': ['vint', 'vimls'],
                 \   'yaml': ['yamllint'],
                 \   }
