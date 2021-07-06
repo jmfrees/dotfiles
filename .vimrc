@@ -248,11 +248,13 @@ let g:ale_fixers =  {
                 \   'yaml': ['prettier'],
                 \   }
 let g:ale_virtualenv_dir_names = []
+let g:ale_rust_cargo_use_clippy = 1
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 noremap <Leader>ad :ALEGoToDefinition<CR>
 noremap <Leader>af :ALEFix<CR>
 noremap <Leader>ar :ALEFindReferences<CR>
-noremap <Leader>ac :ALERename<CR>               " neumonic is 'change'
+" neumonic is 'change'
+noremap <Leader>ac :ALERename<CR>
 
 " vimwiki
 let g:vimwiki_list = [{'path': '~/.vimwiki', 'path_html': '~/public_html'}]
