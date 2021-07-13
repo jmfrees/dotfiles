@@ -141,6 +141,7 @@ augroup END
 " NOTE: you can :PlugStatus to see running plugins
 call plug#begin()
     Plug 'dense-analysis/ale'           " linting, completion, formatting
+    Plug 'puremourning/vimspector'              " fancy vim debugging interface
     Plug 'vimwiki/vimwiki'
     Plug 'mhinz/vim-startify'                   " fancy start screen with recall
     Plug 'jpalardy/vim-slime'                   " send buffer data to [session]
@@ -191,9 +192,12 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 nmap <silent> <C-s> <Plug>MarkdownPreview           " toggle markdown preview
 
 " Git
-noremap <Leader>gs :Gstatus<CR>
-noremap <Leader>gb :Gblame<CR>
-noremap <Leader>gl :Glog<CR>
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gl :Glog<CR>
 
 
 " autocommands for plugins
@@ -336,3 +340,6 @@ call deoplete#custom#option('sources', {
 \ '_': ['ale', 'ultisnips'],
 \})
 let g:deoplete#enable_at_startup = 1
+
+" vimspector
+let g:vimspector_enable_mappings = 'HUMAN'
