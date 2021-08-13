@@ -1,4 +1,17 @@
-" prep general vim environment
+" =============================================================================
+" # INITIAL SETUP
+" =============================================================================
+
+let mapleader = "\<Space>"
+
+" Set :term/:shell program
+if filereadable('/bin/fish')
+    set shell=/bin/fish\ --login
+else
+    set shell=/bin/bash\ --login
+endif
+
+" Prep general vim environment
 if !isdirectory($HOME.'/.vim')
     call mkdir($HOME.'/.vim', '', 0700)
 endif
@@ -6,7 +19,7 @@ if !isdirectory($HOME.'/.vim/undodir')
     call mkdir($HOME.'/.vim/undodir', '', 0700)
 endif
 
-" check if remote session
+" Check if remote session
 let g:remoteSession = !($SSH_TTY ==? '')
 if g:remoteSession
     colorscheme slate
@@ -14,199 +27,66 @@ else
     colorscheme default
 endif
 
-" set :term/:shell program
-if filereadable('/bin/fish')
-    set shell=/bin/fish\ --login
-else
-    set shell=/bin/bash\ --login
-endif
+" =============================================================================
+" # PLUGINS
+" =============================================================================
 
-" visual settings
-syntax enable                   " syntax highlighting for applicable buffers
-set noshowmode                  " hide -- MODE -- on bottom line
-set wrap                        " wrap long lines to next display line
-set linebreak                   " wrap between words, not within
-set showmatch                   " highlight matching paired symbol
-set display+=lastline           " always show last line of paragraph
-set scrolloff=3                 " show n lines above/below cursor when scrolling
-set sidescrolloff=5             " show n columns to sides when scrolling
-set noerrorbells                " disable error bells
-set novisualbell                " especially disable visual error bell
-set background=dark             " Make Vim use the correct colors in my scheme
-set t_RV=''                     " Don't query for terminal version info
-set t_ut=''                     " disable background color erase
-hi clear SignColumn             " for some reason, sign column wasn't using bgcolor
-hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
-hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
-hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
-hi DiffText    cterm=undercurl  ctermfg=Yellow   ctermbg=none
-
-" set ALE to use undercurl settings
-let &t_Cs = "\e[4:3m"           " fix undercurl behavior
-let &t_Ce = "\e[4:0m"           " fix undercurl behavior
-highlight ALEWarning cterm=undercurl ctermbg=none ctermul=blue
-highlight ALEError cterm=undercurl ctermbg=none ctermul=red
-
-
-" functional settings
-set nocompatible                " disable vi compatibility
-set encoding=utf8               " always write utf-8 encoded files
-set termencoding=utf8           " characters appear in utf-8
-scriptencoding=utf8             " just for this file, since it has multibyte chars
-set backspace=indent,eol,start  " allow backspace across [chars]
-set autoread                    " if file is changed outside vim, reload it
-set autochdir                   " ensure working directory = directory of vim
-set ttyfast                     " redraw faster
-set lazyredraw                  " don't draw screen during command execution
-set undofile                    " enable preserved histories across sessions
-set undodir=~/.vim/undodir      " store histories in specific dir instead of same as file
-set mouse=a                     " enable mouse
-set ttymouse=sgr                " change how vim understands mouse inputs
-set splitbelow                  " Open :split buffers on bottom
-set splitright                  " Open :vsplit buffers on right
-set hidden	                    " buffers stay open+edited when not visible
-set ignorecase                  " no case = any case
-set smartcase                   " adding case = case sensitive
-set hlsearch                    " highlight results
-set incsearch                   " jump to nearest result as you search
-set clipboard^=unnamedplus      " use system clipboard always
-filetype plugin indent on       " autoindent+plugins per filetype
-
-tnoremap <c-b> <c-\><c-n>       " Allow scroll mode in :term
-
-
-" formatting settings
-set shiftround                  " round 'shift' to shiftwidth
-set textwidth=80                " wrap to new buffer line based on column width.
-set formatoptions+=c            " auto-formatting based on textwidth; respects comments
-set formatoptions-=t
-set noendofline                 " disable automatically added newline
-
-" information settings
-set ruler                       " display position on statusbar
-set number                      " line numbers
-set relativenumber              " distances from cursor in line numbers
-set laststatus=2                " display statusline always
-set wildmenu                    " enable command completion after :
-set wildmode=longest:full,list  " autocomplete to longest common string
-set title                       " show vim status on title bar if applicable
-set showcmd                     " show currently typed command
-set history=1000                " preserve n changes
-
-" command remaps
-command! W :write
-command! Q :quit
-
-
-" keybinds
-map <C-n> :NERDTreeToggle<CR>
-nnoremap <SPACE> <Nop>          " disable all space bindings
-map <SPACE> <Leader>            " map space to current leader (default: \)
-let mapleader=' '               " map leader to space
-
-nnoremap <silent> <CR> :noh<CR><CR>
-" clear search highlight by hitting enter
-" hitting n or performing another search will re-enable
-
-" janky tab navigation in completion menus
-" only remap if popup menu visible (includes hover...), else Tab
-inoremap <expr> <S-Tab> pumvisible() ? '<Down>' : '<Tab>'
-
-"split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-
-" autocommands
-" remember last edited location when reopening file, if valid
-augroup remember_last_position
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-
-augroup file_settings
-    autocmd FileType md,svn,*commit* setlocal spell
-augroup END
-
-" Add group from jsx
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
-augroup END
-
-
-" ALL PLUGIN SETTINGS
-" NOTE: you can :echo glob($VIMRUNTIME . '/ftplugin/*.vim') to see filetypes available
-" NOTE: you can :PlugStatus to see running plugins
 call plug#begin()
-    Plug 'dense-analysis/ale'           " linting, completion, formatting
-    Plug 'puremourning/vimspector'              " fancy vim debugging interface
-    Plug 'vimwiki/vimwiki'
-    Plug 'mhinz/vim-startify'                   " fancy start screen with recall
-    Plug 'jpalardy/vim-slime'                   " send buffer data to [session]
-    Plug 'tpope/vim-fugitive'                   " git information and commands
-    Plug 'airblade/vim-gitgutter'               " gitlens for vim
-    Plug 'vim-airline/vim-airline'              " fancy status bar
-    Plug 'preservim/nerdtree'                   " file explorer inside vim
-    Plug 'Xuyuanp/nerdtree-git-plugin'          " symbols based on git status
-    Plug 'ryanoasis/vim-devicons'               " fancy symbols integration
+    " VIM enhancements
+    Plug 'editorconfig/editorconfig-vim'
+    Plug 'justinmk/vim-sneak'
 
-    Plug 'AndrewRadev/linediff.vim'             " diff two different parts of file
+    " Language support
+    Plug 'dense-analysis/ale'                   " Linting, completion, formatting
+    Plug 'puremourning/vimspector'              " Fancy vim debugging interface
+    Plug 'vimwiki/vimwiki'
+    Plug 'jpalardy/vim-slime'                   " Send buffer data to [session]
+
+    " GUI enhancements
+    Plug 'machakann/vim-highlightedyank'        " Highlight yanked lines
+    Plug 'andymass/vim-matchup'
+    Plug 'mhinz/vim-startify'                   " Fancy start screen with recall
+    Plug 'AndrewRadev/linediff.vim'             " Diff two different parts of file
+    Plug 'preservim/nerdtree'                   " File explorer inside vim
+    Plug 'Xuyuanp/nerdtree-git-plugin'          " Symbols based on git status
+    Plug 'tpope/vim-fugitive'                   " Git information and commands
+    Plug 'vim-airline/vim-airline'              " Fancy status bar
+    Plug 'airblade/vim-gitgutter'               " Gitlens for vim
+    Plug 'ryanoasis/vim-devicons'               " Fancy symbols integration
+
+    " Fuzzy finder
+    Plug 'airblade/vim-rooter'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+
+    " Convenience
+    Plug 'tpope/vim-unimpaired'			" Better bracket binds
+    Plug 'ConradIrwin/vim-bracketed-paste'      " Automatic :set paste
+    Plug 'tpope/vim-commentary'                 " Plugin for commenting code
     Plug 'godlygeek/tabular', { 'for': 'markdown' }
     Plug 'mattn/emmet-vim', { 'for': 'html' }
-    Plug 'tpope/vim-commentary'                 " plugin for commenting code
-    Plug 'tpope/vim-sleuth'                     " auto-adjust tab behavior based on open file
+    Plug 'tpope/vim-sleuth'                     " Auto-adjust tab behavior based on open file
+    Plug 'jiangmiao/auto-pairs'                 " Auto match parens
 
-    Plug 'ConradIrwin/vim-bracketed-paste'      " automatic :set paste
-    Plug 'unblevable/quick-scope'               " quicker nav using f/F
-    " Plug 'andersoncustodio/vim-enter-indent'
-    Plug 'tpope/vim-unimpaired'			" better bracket binds
-    Plug 'jiangmiao/auto-pairs'                 " auto match parens
-    " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'honza/vim-snippets'
-
-    Plug 'Shougo/deoplete.nvim'                 " more supported completion popup
+    " Auto complete suggestions
+    Plug 'Shougo/deoplete.nvim'                 " More supported completion popup
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
+    Plug 'ervandew/supertab'                    " Smart tab complete
+
     if !g:remoteSession
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-        " Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
         Plug 'lervag/vimtex', {'for': ['tex', 'plaintex']}        " LaTeX previewer, \ll to start
-        Plug 'sirver/ultisnips'                 " faster snippets completion
+        Plug 'sirver/ultisnips'                 " Faster snippets completion
+        Plug 'honza/vim-snippets'
     endif
 call plug#end()
 
-nmap <leader>1 <Plug>AirlineSelectTab1      " i3-style buffer selection
-nmap <leader>2 <Plug>AirlineSelectTab2      " better than :b
-nmap <leader>3 <Plug>AirlineSelectTab3      " airline ignores special buffers
-nmap <leader>4 <Plug>AirlineSelectTab4      " like :help and NERDTree
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
+""""""""""""""""""""""""""""""""""""""""""
+" Plugin Settings
 
-nmap <silent> <C-s> <Plug>MarkdownPreview           " toggle markdown preview
-
-" Git
-nnoremap <leader>gd :Gvdiffsplit!<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gl :Glog<CR>
-
-
-" autocommands for plugins
 " ALE
-set omnifunc=ale#completion#OmniFunc
-let g:ale_completion_enabled = 0
-let g:ale_completion_autoimport = 1
 let g:ale_lint_delay = 750
-let g:ale_completion_delay = 100
 let g:ale_fix_on_save = 1
 let g:ale_set_balloons = 1
 let g:ale_echo_msg_info_str = '🛈 '
@@ -214,6 +94,8 @@ let g:ale_echo_msg_warning_str = '⚠ '
 let g:ale_echo_msg_error_str = '❌'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_linter_aliases = {'jsx': ['javascript']}
+let g:ale_completion_autoimport = 1
+set omnifunc=ale#completion#OmniFunc
 let g:ale_linters = {
                 \   'c': ['cc', 'clangtidy', 'clangd'],
                 \   'cpp': ['cc', 'clangtidy', 'clangd'],
@@ -253,20 +135,25 @@ let g:ale_fixers =  {
                 \   }
 let g:ale_virtualenv_dir_names = []
 let g:ale_rust_cargo_use_clippy = 1
-command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
-noremap <Leader>ad :ALEGoToDefinition<CR>
-noremap <Leader>af :ALEFix<CR>
-noremap <Leader>ar :ALEFindReferences<CR>
-" neumonic is 'change'
-noremap <Leader>ac :ALERename<CR>
 
-" vimwiki
+command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+noremap gd :ALEGoToDefinition<CR>
+noremap K :ALEHover<CR>
+noremap <Leader>D :ALEGoToTypeDefinition<CR>
+noremap <Leader>a :ALECodeAction<CR>
+noremap gr :ALEFindReferences<CR>
+noremap <Leader>e :ALEDetail<CR>
+noremap <Leader>r :ALEResetBuffer<CR>
+noremap <Leader>f :ALEFix<CR>
+noremap <Leader>rn :ALERename<CR>
+
+" Vimwiki
 let g:vimwiki_list = [{'path': '~/.vimwiki', 'path_html': '~/public_html'}]
 
-" vim-slime
-let g:slime_target = 'vimterminal'                  " session to send to
-let g:slime_paste_file = '$HOME/.vim/.slime_paste'  " cleaner selection for paste file
-let g:slime_python_ipython = 1                      " ipython drops inputs without this
+" Vim-slime
+let g:slime_target = 'vimterminal'                  " Session to send to
+let g:slime_paste_file = '$HOME/.vim/.slime_paste'  " Cleaner selection for paste file
+let g:slime_python_ipython = 1                      " Ipython drops inputs without this
 
 " NERDTree
 let g:NERDTreeShowHidden=1
@@ -275,8 +162,8 @@ let g:NERDTreeNaturalSort=1
 let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+let g:NERDTreeHighlightFolders = 1 " Enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " Highlights the folder name
 " Ignore junk files in NerdTree
 let NERDTreeIgnore=[
     \ 'node_modules$[[dir]]',
@@ -291,37 +178,37 @@ let NERDTreeIgnore=[
     \ '.fdb_latexmk[[file]]',
     \ '.aux[[file]]'
 \ ]
+map <C-n> :NERDTreeToggle<CR>
 
-
-" airline
+" Airline
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-let g:airline_powerline_fonts = 1               " fancy unicode symbols
-let g:airline_left_sep = ''                     " omit for cleanliness
+let g:airline_powerline_fonts = 1               " Fancy unicode symbols
+let g:airline_left_sep = ''                     " Omit for cleanliness
 let g:airline_right_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline_symbols.crypt = '🔐'              " encrypted file
-let g:airline_symbols.readonly = '🔒'           " read only file
-let g:airline_symbols.linenr = '¶'              " linenum
-let g:airline_symbols.maxlinenr = ''            " column num
-let g:airline_symbols.paste = '∥'               " paste mode
-let g:airline_symbols.spell = '✓'               " spell mode
-let g:airline_symbols.dirty='*'                 " dirty git buffer
+let g:airline_symbols.crypt = '🔐'              " Encrypted file
+let g:airline_symbols.readonly = '🔒'           " Read only file
+let g:airline_symbols.linenr = '¶'              " Linenum
+let g:airline_symbols.maxlinenr = ''            " Column num
+let g:airline_symbols.paste = '∥'               " Paste mode
+let g:airline_symbols.spell = '✓'               " Spell mode
+let g:airline_symbols.dirty='*'                 " Dirty git buffer
 let g:airline_symbols.notexists = 'Ɇ'
 
-
 let g:airline#extensions#ale#enabled = 1                    " ALE + vim-airline integration
-let g:airline#extensions#tabline#enabled = 1                " display open buffers+tabs on top bar
-let g:airline#extensions#tabline#nametruncate = 16          " max buffer name of 16 chars
-let g:airline#extensions#tabline#fnamecollapse = 2          " only show 2 trunc'd parent dirs
-let g:airline#extensions#branch#displayed_head_limit = 16   " limit branch names to first 16 chars
+let g:airline#extensions#tabline#enabled = 1                " Display open buffers+tabs on top bar
+let g:airline#extensions#tabline#nametruncate = 16          " Max buffer name of 16 chars
+let g:airline#extensions#tabline#fnamecollapse = 2          " Only show 2 trunc'd parent dirs
+let g:airline#extensions#tabline#buffer_nr_show = 1         " Show buffer number
+let g:airline#extensions#branch#displayed_head_limit = 16   " Limit branch names to first 16 chars
 
-" markdown-preview.nvim
+" Markdown-preview.nvim
 let g:mkdp_browser = 'firefox'
 
-" vimtex
+" Vimtex
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_view_general_viewer = 'zathura'
@@ -332,14 +219,217 @@ let g:tex_conceal='abdmg'
 " UltiSnips
 let g:UltiSnipsExpandTrigger='<tab>'
 let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<c-b>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 let g:UltiSnipsEditSplit='vertical'
 
-" deoplete
+" Deoplete
 call deoplete#custom#option('sources', {
 \ '_': ['ale', 'ultisnips'],
 \})
 let g:deoplete#enable_at_startup = 1
 
-" vimspector
+" Vimspector
 let g:vimspector_enable_mappings = 'HUMAN'
+
+" Vim sneak
+let g:sneak#label = 1
+
+" Yank highlight
+let g:highlightedyank_highlight_duration = 300
+
+" Supertab
+let g:SuperTabDefaultCompletionType = '<c-n>'
+
+" =============================================================================
+" # VISUAL SETTINGS
+" =============================================================================
+
+" Visual settings
+syntax enable                   " Syntax highlighting for applicable buffers
+set noshowmode                  " Hide -- MODE -- on bottom line
+set wrap                        " Wrap long lines to next display line
+set linebreak                   " Wrap between words, not within
+set showmatch                   " Highlight matching paired symbol
+set display+=lastline           " Always show last line of paragraph
+set scrolloff=3                 " Show n lines above/below cursor when scrolling
+set sidescrolloff=5             " Show n columns to sides when scrolling
+set noerrorbells                " Disable error bells
+set novisualbell                " Especially disable visual error bell
+set background=dark             " Make Vim use the correct colors in my scheme
+set t_RV=''                     " Don't query for terminal version info
+set t_ut=''                     " Disable background color erase
+hi clear SignColumn             " For some reason, sign column wasn't using bgcolor
+hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
+hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
+hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
+hi DiffText    cterm=undercurl  ctermfg=Yellow   ctermbg=none
+let &t_Cs = "\e[4:3m"           " Fix undercurl behavior
+let &t_Ce = "\e[4:0m"           " Fix undercurl behavior
+hi ALEWarning cterm=undercurl ctermbg=none ctermul=blue
+hi ALEError cterm=undercurl ctermbg=none ctermul=red
+hi MatchWord cterm=underline gui=underline
+
+" =============================================================================
+" # EDITOR SETTINGS
+" =============================================================================
+
+" Functional settings
+set nocompatible                " Disable vi compatibility
+set encoding=utf8               " Always write utf-8 encoded files
+set termencoding=utf8           " Characters appear in utf-8
+scriptencoding=utf8             " Just for this file, since it has multibyte chars
+set backspace=indent,eol,start  " Allow backspace across [chars]
+set autoread                    " If file is changed outside vim, reload it
+set autochdir                   " Ensure working directory = directory of vim
+set ttyfast                     " Redraw faster
+set lazyredraw                  " Don't draw screen during command execution
+set undofile                    " Enable preserved histories across sessions
+set undodir=~/.vim/undodir      " Store histories in specific dir instead of same as file
+set mouse=a                     " Enable mouse
+set ttymouse=sgr                " Change how vim understands mouse inputs
+set splitbelow                  " Open :split buffers on bottom
+set splitright                  " Open :vsplit buffers on right
+set ignorecase                  " No case = any case
+set smartcase                   " Adding case = case sensitive
+set hlsearch                    " Highlight results
+set incsearch                   " Jump to nearest result as you search
+set clipboard^=unnamedplus      " Use system clipboard always
+filetype plugin indent on       " Autoindent+plugins per filetype
+
+" Formatting settings
+set shiftround                  " Round 'shift' to shiftwidth
+set textwidth=80                " Wrap to new buffer line based on column width.
+set formatoptions+=c            " Auto-formatting based on textwidth; respects comments
+set formatoptions-=t
+set noendofline                 " Disable automatically added newline
+
+" Information settings
+set ruler                       " Display position on statusbar
+set number                      " Line numbers
+set relativenumber              " Distances from cursor in line numbers
+set laststatus=2                " Display statusline always
+set wildmenu                    " Enable command completion after :
+set wildmode=longest:full,list  " Autocomplete to longest common string
+set title                       " Show vim status on title bar if applicable
+set showcmd                     " Show currently typed command
+set history=1000                " Preserve n changes
+
+" Completion
+set completeopt=menuone,noinsert,noselect
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" =============================================================================
+" # KEYBOARD SHORTCUTS
+" =============================================================================
+
+" ; as :
+nnoremap ; :
+
+" Command remaps
+command! W :write
+command! Q :quit
+
+" Suspend with Ctrl+f
+inoremap <C-f> :sus<cr>
+vnoremap <C-f> :sus<cr>
+nnoremap <C-f> :sus<cr>
+
+" Jump to start and end of line using the home row keys
+map H ^
+map L $
+
+" Clear search highlight by hitting enter
+" Hitting n or performing another search will re-enable
+nnoremap <silent> <CR> :noh<CR><CR>
+
+" Allow scroll mode in :term
+tnoremap <c-b> <c-\><c-n>
+
+" Open new file adjacent to current file
+nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+" No arrow keys --- force yourself to use the home row
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+" Move by line
+nnoremap j gj
+nnoremap k gk
+
+" <leader>, shows/hides hidden characters
+nnoremap <leader>, :set invlist<cr>
+
+" <leader>q shows stats
+nnoremap <leader>q g<c-g>
+
+" Keymap for replacing up to next _ or -
+noremap <leader>m ct_
+
+" Toggle markdown preview
+nmap <silent> <C-s> <Plug>MarkdownPreview
+
+nmap <leader>1 <Plug>AirlineSelectTab1      " I3-style buffer selection
+nmap <leader>2 <Plug>AirlineSelectTab2      " Better than :b
+nmap <leader>3 <Plug>AirlineSelectTab3      " Airline ignores special buffers
+nmap <leader>4 <Plug>AirlineSelectTab4      " Like :help and NERDTree
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <left> <Plug>AirlineSelectPrevTab
+nmap <right> <Plug>AirlineSelectNextTab
+
+" Git
+nnoremap <leader>gd :Gvdiffsplit!<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gl :Glog<CR>
+
+""""""""""""""""""""""""""""""""""""""""""
+" <leader>s for Rg search
+noremap <leader>s :Rg
+let g:fzf_layout = { 'down': '~20%' }
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+function! s:list_cmd()
+  let base = fnamemodify(expand('%'), ':h:.:S')
+  return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
+endfunction
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
+  \                               'options': '--tiebreak=index'}, <bang>0)
+
+" =============================================================================
+" # AUTOCOMMANDS
+" =============================================================================
+
+" Remember last edited location when reopening file, if valid
+augroup remember_last_position
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+
+augroup file_settings
+    autocmd FileType md,svn,*commit* setlocal spell
+augroup END
+
+" Add group from jsx
+augroup FiletypeGroup
+    autocmd!
+    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+augroup END
