@@ -38,21 +38,16 @@ call plug#begin()
 
     " Language support
     Plug 'dense-analysis/ale'                   " Linting, completion, formatting
-    Plug 'puremourning/vimspector'              " Fancy vim debugging interface
-    Plug 'vimwiki/vimwiki'
     Plug 'jpalardy/vim-slime'                   " Send buffer data to [session]
 
     " GUI enhancements
+    Plug 'airblade/vim-gitgutter'               " Gitlens for vim
+    Plug 'andymass/vim-matchup'                 " Extend % matching
     Plug 'machakann/vim-highlightedyank'        " Highlight yanked lines
-    Plug 'andymass/vim-matchup'
     Plug 'mhinz/vim-startify'                   " Fancy start screen with recall
-    Plug 'AndrewRadev/linediff.vim'             " Diff two different parts of file
-    Plug 'preservim/nerdtree'                   " File explorer inside vim
-    Plug 'Xuyuanp/nerdtree-git-plugin'          " Symbols based on git status
+    Plug 'ryanoasis/vim-devicons'               " Fancy symbols integration
     Plug 'tpope/vim-fugitive'                   " Git information and commands
     Plug 'vim-airline/vim-airline'              " Fancy status bar
-    Plug 'airblade/vim-gitgutter'               " Gitlens for vim
-    Plug 'ryanoasis/vim-devicons'               " Fancy symbols integration
 
     " Fuzzy finder
     Plug 'airblade/vim-rooter'
@@ -60,19 +55,19 @@ call plug#begin()
     Plug 'junegunn/fzf.vim'
 
     " Convenience
-    Plug 'tpope/vim-unimpaired'			" Better bracket binds
     Plug 'ConradIrwin/vim-bracketed-paste'      " Automatic :set paste
-    Plug 'tpope/vim-commentary'                 " Plugin for commenting code
+    Plug 'jiangmiao/auto-pairs'                 " Auto match parens
     Plug 'godlygeek/tabular', { 'for': 'markdown' }
     Plug 'mattn/emmet-vim', { 'for': 'html' }
+    Plug 'tpope/vim-unimpaired'			" Better bracket binds
+    Plug 'tpope/vim-commentary'                 " Plugin for commenting code
     Plug 'tpope/vim-sleuth'                     " Auto-adjust tab behavior based on open file
-    Plug 'jiangmiao/auto-pairs'                 " Auto match parens
 
     " Auto complete suggestions
-    Plug 'Shougo/deoplete.nvim'                 " More supported completion popup
+    Plug 'ervandew/supertab'                    " Smart tab complete
+    Plug 'Shougo/deoplete.nvim'                 " More supported completion pop-up
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
-    Plug 'ervandew/supertab'                    " Smart tab complete
 
     if !g:remoteSession
         Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -147,38 +142,10 @@ noremap <Leader>r :ALEResetBuffer<CR>
 noremap <Leader>f :ALEFix<CR>
 noremap <Leader>rn :ALERename<CR>
 
-" Vimwiki
-let g:vimwiki_list = [{'path': '~/.vimwiki', 'path_html': '~/public_html'}]
-
 " Vim-slime
 let g:slime_target = 'vimterminal'                  " Session to send to
 let g:slime_paste_file = '$HOME/.vim/.slime_paste'  " Cleaner selection for paste file
 let g:slime_python_ipython = 1                      " Ipython drops inputs without this
-
-" NERDTree
-let g:NERDTreeShowHidden=1
-let g:NERDTreeShowLineNumbers=1
-let g:NERDTreeNaturalSort=1
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1 " Enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " Highlights the folder name
-" Ignore junk files in NerdTree
-let NERDTreeIgnore=[
-    \ 'node_modules$[[dir]]',
-    \ '.git$[[dir]]',
-    \ '.vscode$[[dir]]',
-    \ '.idea$[[dir]]',
-    \ '.DS_Store$[[file]]',
-    \ '.swp$[[file]]',
-    \ 'hdevtools.sock$[[file]]',
-    \ '.synctex.gz[[file]]',
-    \ '.fls[[file]]',
-    \ '.fdb_latexmk[[file]]',
-    \ '.aux[[file]]'
-\ ]
-map <C-n> :NERDTreeToggle<CR>
 
 " Airline
 if !exists('g:airline_symbols')
@@ -197,7 +164,6 @@ let g:airline_symbols.paste = '∥'               " Paste mode
 let g:airline_symbols.spell = '✓'               " Spell mode
 let g:airline_symbols.dirty='*'                 " Dirty git buffer
 let g:airline_symbols.notexists = 'Ɇ'
-
 let g:airline#extensions#ale#enabled = 1                    " ALE + vim-airline integration
 let g:airline#extensions#tabline#enabled = 1                " Display open buffers+tabs on top bar
 let g:airline#extensions#tabline#nametruncate = 16          " Max buffer name of 16 chars
@@ -375,10 +341,11 @@ noremap <leader>m ct_
 " Toggle markdown preview
 nmap <silent> <C-s> <Plug>MarkdownPreview
 
-nmap <leader>1 <Plug>AirlineSelectTab1      " I3-style buffer selection
-nmap <leader>2 <Plug>AirlineSelectTab2      " Better than :b
-nmap <leader>3 <Plug>AirlineSelectTab3      " Airline ignores special buffers
-nmap <leader>4 <Plug>AirlineSelectTab4      " Like :help and NERDTree
+" I3-style buffer selection (ignores special buffers)
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
 nmap <leader>5 <Plug>AirlineSelectTab5
 nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
@@ -396,24 +363,41 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gl :Glog<CR>
 
 """"""""""""""""""""""""""""""""""""""""""
+" FZF
 " <leader>s for Rg search
-noremap <leader>s :Rg
+noremap <leader>s :RG
 let g:fzf_layout = { 'down': '~20%' }
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+
+" Add namespace for fzf.vim exported commands
+let g:fzf_command_prefix = 'Fzf'
+
+" Mappings
+nnoremap <silent> <leader>o :FzfFiles<CR>
+nnoremap <silent> <leader>O :FzfFiles!<CR>
+nnoremap <silent> <leader>b :FzfBuffers<CR>
+nnoremap <silent> <leader>` :FzfMarks<CR>
+inoremap <silent> <F3> <ESC>:FzfSnippets<CR>
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let preview_type = a:fullscreen ? 'up:60%' : 'right:50%:hidden'
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--preview-window', preview_type]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 function! s:list_cmd()
   let base = fnamemodify(expand('%'), ':h:.:S')
   return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
 endfunction
 
-command! -bang -nargs=? -complete=dir Files
+command! -bang -nargs=? -complete=dir FzfFiles
   \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
   \                               'options': '--tiebreak=index'}, <bang>0)
+
 
 " =============================================================================
 " # AUTOCOMMANDS
