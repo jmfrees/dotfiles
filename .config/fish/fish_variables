@@ -13,7 +13,9 @@ SETUVAR --export __ABBR_TIPS_VALUES:pvim\x1eexit\x1egit\x1egit\x20add\x1egit\x20
 SETUVAR __fish_initialized:3100
 SETUVAR _fish_abbr__3A_e:pvim
 SETUVAR _fish_abbr__3A_q:exit
+SETUVAR _fish_abbr_dpr:doppler\x20run\x20\x2d\x2d\x20pdm\x20run
 SETUVAR _fish_abbr_dr:doppler\x20run\x20\x2d\x2d
+SETUVAR _fish_abbr_drpr:doppler\x20run\x20\x2d\x2d\x20pdm\x20run
 SETUVAR _fish_abbr_g:git
 SETUVAR _fish_abbr_ga:git\x20add
 SETUVAR _fish_abbr_gb:git\x20branch
