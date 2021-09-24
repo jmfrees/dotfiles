@@ -1,20 +1,20 @@
 #!/bin/bash
-if not [ -f "/usr/bin/yay" ]; then
-    echo "yay is not installed; installing it for you!"
-    git clone https://aur.archlinux.org/yay
-    if not [ -d "./yay" ]; then
-        echo "Failed to clone yay; something went wrong"
+if not [ -f "/usr/bin/paru" ]; then
+    echo "paru is not installed; installing it for you!"
+    git clone https://aur.archlinux.org/paru
+    if not [ -d "./paru" ]; then
+        echo "Failed to clone paru; something went wrong"
         exit
     fi;
 
-    cd ./yay
+    cd ./paru
     makepkg -si
     cd ..
-    rm -rf ./yay
+    rm -rf ./paru
 fi;
 
 echo "Installing main packages with pacman -Syu --needed - < ./driver"
                                     pacman -Syu --needed - < ./driver
-echo "Installing AUR packages with yay -Syu --needed - < ./external"
-# TODO: pacman needs sudo, but yay complains about being run as root
-                                   yay -Syu --needed - < ./external
+echo "Installing AUR packages with paru -Syu --needed - < ./external"
+# TODO: pacman needs sudo, but paru complains about being run as root
+                                   paru -Syu --needed - < ./external
