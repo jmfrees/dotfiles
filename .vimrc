@@ -168,7 +168,7 @@ let g:airline#extensions#ale#enabled = 1                    " ALE + vim-airline 
 let g:airline#extensions#tabline#enabled = 1                " Display open buffers+tabs on top bar
 let g:airline#extensions#tabline#nametruncate = 16          " Max buffer name of 16 chars
 let g:airline#extensions#tabline#fnamecollapse = 2          " Only show 2 trunc'd parent dirs
-let g:airline#extensions#tabline#buffer_nr_show = 1         " Show buffer number
+let g:airline#extensions#tabline#buffer_idx_mode = 1        " Show navigable buffer number
 let g:airline#extensions#branch#displayed_head_limit = 16   " Limit branch names to first 16 chars
 
 " Markdown-preview.nvim
@@ -255,6 +255,7 @@ set mouse=a                     " Enable mouse
 set ttymouse=sgr                " Change how vim understands mouse inputs
 set splitbelow                  " Open :split buffers on bottom
 set splitright                  " Open :vsplit buffers on right
+set hidden                      " Allow hidden buffers
 set ignorecase                  " No case = any case
 set smartcase                   " Adding case = case sensitive
 set hlsearch                    " Highlight results
