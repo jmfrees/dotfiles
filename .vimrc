@@ -54,9 +54,10 @@ call plug#begin()
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
 
+
     " Convenience
     Plug 'ConradIrwin/vim-bracketed-paste'      " Automatic :set paste
-    Plug 'jiangmiao/auto-pairs'                 " Auto match parens
+    Plug 'raimondi/delimitmate'                 " Auto match parens
     Plug 'godlygeek/tabular', { 'for': 'markdown' }
     Plug 'mattn/emmet-vim', { 'for': 'html' }
     Plug 'tpope/vim-unimpaired'			" Better bracket binds
@@ -260,6 +261,7 @@ set ignorecase                  " No case = any case
 set smartcase                   " Adding case = case sensitive
 set hlsearch                    " Highlight results
 set incsearch                   " Jump to nearest result as you search
+set foldmethod=syntax           " Use syntax to define folds
 set clipboard^=unnamedplus      " Use system clipboard always
 filetype plugin indent on       " Autoindent+plugins per filetype
 
