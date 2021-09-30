@@ -60,9 +60,10 @@ call plug#begin()
     Plug 'raimondi/delimitmate'                 " Auto match parens
     Plug 'godlygeek/tabular', { 'for': 'markdown' }
     Plug 'mattn/emmet-vim', { 'for': 'html' }
-    Plug 'tpope/vim-unimpaired'			" Better bracket binds
     Plug 'tpope/vim-commentary'                 " Plugin for commenting code
     Plug 'tpope/vim-sleuth'                     " Auto-adjust tab behavior based on open file
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-unimpaired'			" Better bracket binds
 
     " Auto complete suggestions
     Plug 'ervandew/supertab'                    " Smart tab complete
