@@ -54,9 +54,9 @@ set $normalnotif && dunstify --timeout 8000 --urgency normal --appname
 set $criticalnotif && dunstify --timeout 60000 --urgency critical --appname
 
 # audio shortcuts
-set $soundcheck "Sound $(amixer -c 0 -M -D pulse get Master | grep -oPm 1 '(?<=\[)off|on(?=\])')"
-set $volumecheck "Volume $(amixer -c 0 -M -D pulse get Master | grep -oPm 1 '(?<=\[)\d\d?\d?%(?=\])')"
-set $miccheck "Microphone $(amixer -c 0 -M -D pulse get Capture | grep -oPm 1 '(?<=\[)off|on(?=\])')"
+set $soundcheck "Sound $(amixer -c 0 -M -D pipewire get Master | grep -oPm 1 '(?<=\[)off|on(?=\])')"
+set $volumecheck "Volume $(amixer -c 0 -M -D pipewire get Master | grep -oPm 1 '(?<=\[)\d\d?\d?%(?=\])')"
+set $miccheck "Microphone $(amixer -c 0 -M -D pipewire get Capture | grep -oPm 1 '(?<=\[)off|on(?=\])')"
 
 # Notify for lock keys changing state; `:` is bash noop, lets me keep && in shortcut
 bindsym --release Caps_Lock exec : $normalnotif "Caps Lock" "$(xset q | grep 'Caps Lock' | awk '{print $4}')"
@@ -76,9 +76,9 @@ bindsym $mod+Shift+w exec feh --bg-scale --randomize ~/Media/Wallpapers/* $norma
 bindsym $mod+Shift+m exec autorandr -c $normalnotif "Autorandr" "Checking monitors"
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5 $lownotif "Light" "$(light)%"
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 5 $lownotif "Light" "$(light)%"
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle $normalnotif "PulseAudio" $soundcheck
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +10% $lownotif "PulseAudio" $volumecheck
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -10% $lownotif "PulseAudio" $volumecheck
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle $normalnotif "Volume" $soundcheck
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +10% $lownotif "Volume" $volumecheck
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -10% $lownotif "Volume" $volumecheck
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle $normalnotif "PulseAudio" $miccheck
 bindsym $mod+Print exec scrot -q 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took full screenshot"
 bindsym $mod+Ctrl+Print exec scrot -uq 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took screenshot of focused window"
