@@ -2,30 +2,79 @@
 " # INITIAL SETUP
 " =============================================================================
 
+if !isdirectory($HOME.'/.vim') | call mkdir($HOME.'/.vim', '', 0700) | endif
+if !isdirectory($HOME.'/.vim/undodir') | call mkdir($HOME.'/.vim/undodir', '', 0700) | endif
+
+let g:remoteSession = !($SSH_TTY ==? '')
+if g:remoteSession | colorscheme slate | else | colorscheme default | endif
+if filereadable('/bin/fish') | set shell=/bin/fish\ --login | else | set shell=/bin/bash\ --login | endif
+
 let mapleader = "\<Space>"
 
-" Set :term/:shell program
-if filereadable('/bin/fish')
-    set shell=/bin/fish\ --login
-else
-    set shell=/bin/bash\ --login
-endif
+" bugfixes
+" vint: -ProhibitSetNoCompatible
+set nocompatible                    " Disable vi compatibility
+set t_RV= t_ut=                     " disable term version query, bg color erase
+let &t_Cs="\e[4:3m"                 " tell vim how to print undercurl
+let &t_Ce="\e[4:0m"                 " and end it. Should be detected, but nope
 
-" Prep general vim environment
-if !isdirectory($HOME.'/.vim')
-    call mkdir($HOME.'/.vim', '', 0700)
-endif
-if !isdirectory($HOME.'/.vim/undodir')
-    call mkdir($HOME.'/.vim/undodir', '', 0700)
-endif
+" =============================================================================
+" # VISUAL SETTINGS
+" =============================================================================
 
-" Check if remote session
-let g:remoteSession = !($SSH_TTY ==? '')
-if g:remoteSession
-    colorscheme slate
-else
-    colorscheme default
-endif
+" Visual settings
+syntax enable                       " Syntax highlighting for applicable buffers
+set noshowmode showmatch            " Hide MODE on statusbar, highlight paired symbols
+set wrap linebreak display=lastline " Wrap display line between words, no filler chars
+set scrolloff=5 sidescrolloff=5     " Visual buffer around editing area
+set noerrorbells novisualbell       " No bells
+set background=dark                 " Make Vim use the correct colors in my scheme
+hi clear SignColumn                 " For some reason, sign column wasn't using bgcolor
+" fix diff highlighting / TODO: nvim compat?
+hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
+hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
+hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
+hi DiffText    cterm=undercurl  ctermul=Yellow   ctermbg=none
+hi SpellBad    cterm=undercurl  ctermul=Red      ctermbg=none
+hi ALEWarning  cterm=undercurl  ctermbg=none     ctermul=blue
+hi ALEError    cterm=undercurl  ctermbg=none     ctermul=red
+hi MatchWord   cterm=underline  gui=underline
+
+" =============================================================================
+" # EDITOR SETTINGS
+" =============================================================================
+
+" Functional settings
+set encoding=utf8 termencoding=utf8 " Always write utf-8 encoded files
+scriptencoding=utf8                 " This file has multibyte chars
+set backspace=indent,eol,start      " Allow backspace across [chars]
+set autoread hidden                 " Reload on change, allow unfocused edited buffers
+set ttyfast lazyredraw              " Render faster, don't render during commands
+set undofile undodir=~/.vim/undodir history=5000  " Maintain history
+set splitbelow splitright           " Split like i3
+set clipboard^=unnamedplus          " Use system clipboard always
+set ignorecase smartcase hlsearch incsearch       " Convenient search options
+set shiftround expandtab shiftwidth=4 tabstop=4   " Tab behavior defaults
+set textwidth=80 formatoptions+=c  " Wrap to newline at textwidth, respecting comments
+set formatoptions-=t
+set completeopt=menuone,noinsert,noselect   " Use menu, don't insert/select unless user chooses
+set autochdir                      " Ensure working directory = directory of vim
+set foldmethod=syntax              " Use syntax to define folds
+filetype plugin indent on          " Autoindent+plugins per filetype
+
+
+" Information settings
+set ruler number relativenumber     " sidebar line numbers, statusbar column number
+set wildmenu wildmode=longest:full,list     " command completion menu behavior
+set showcmd                         " show currently typed command
+
+" Completion
+set completeopt=menuone,noinsert,noselect
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
 
 " =============================================================================
 " # PLUGINS
@@ -45,7 +94,6 @@ call plug#begin()
     Plug 'andymass/vim-matchup'                 " Extend % matching
     Plug 'machakann/vim-highlightedyank'        " Highlight yanked lines
     Plug 'mhinz/vim-startify'                   " Fancy start screen with recall
-    Plug 'ryanoasis/vim-devicons'               " Fancy symbols integration
     Plug 'tpope/vim-fugitive'                   " Git information and commands
     Plug 'vim-airline/vim-airline'              " Fancy status bar
 
@@ -63,27 +111,27 @@ call plug#begin()
     Plug 'tpope/vim-commentary'                 " Plugin for commenting code
     Plug 'tpope/vim-sleuth'                     " Auto-adjust tab behavior based on open file
     Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-unimpaired'			" Better bracket binds
+    Plug 'tpope/vim-unimpaired'			        " Better bracket binds
 
     " Auto complete suggestions
     Plug 'ervandew/supertab'                    " Smart tab complete
     Plug 'Shougo/deoplete.nvim'                 " More supported completion pop-up
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-
-    if !g:remoteSession
-        Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-        Plug 'lervag/vimtex', {'for': ['tex', 'plaintex']}        " LaTeX previewer, \ll to start
-        Plug 'sirver/ultisnips'                 " Faster snippets completion
-        Plug 'honza/vim-snippets'
+    if !has('nvim')
+      Plug 'roxma/nvim-yarp'                    " deoplete
+      Plug 'roxma/vim-hug-neovim-rpc'
     endif
+
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+    Plug 'lervag/vimtex', {'for': ['tex', 'plaintex']}        " LaTeX previewer, \ll to start
+    Plug 'sirver/ultisnips'                 " Faster snippets completion
+    Plug 'honza/vim-snippets'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugin Settings
 
 " ALE
-let g:ale_lint_delay = 750
+let g:ale_lint_delay = 500
 let g:ale_fix_on_save = 1
 let g:ale_set_balloons = 1
 let g:ale_echo_msg_info_str = '🛈 '
@@ -150,28 +198,26 @@ let g:slime_paste_file = '$HOME/.vim/.slime_paste'  " Cleaner selection for past
 let g:slime_python_ipython = 1                      " Ipython drops inputs without this
 
 " Airline
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_powerline_fonts = 1               " Fancy unicode symbols
-let g:airline_left_sep = ''                     " Omit for cleanliness
+if !exists('g:airline_symbols') | let g:airline_symbols = {} | endif
+let g:airline_powerline_fonts = 1
+let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline_symbols.crypt = '🔐'              " Encrypted file
-let g:airline_symbols.readonly = '🔒'           " Read only file
-let g:airline_symbols.linenr = '¶'              " Linenum
-let g:airline_symbols.maxlinenr = ''            " Column num
-let g:airline_symbols.paste = '∥'               " Paste mode
-let g:airline_symbols.spell = '✓'               " Spell mode
-let g:airline_symbols.dirty='*'                 " Dirty git buffer
+let g:airline_symbols.crypt = '🔐'
+let g:airline_symbols.readonly = '🔒'
+let g:airline_symbols.linenr = ' '
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.colnr = ':'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = '✓'
+let g:airline_symbols.dirty='*'
 let g:airline_symbols.notexists = 'Ɇ'
-let g:airline#extensions#ale#enabled = 1                    " ALE + vim-airline integration
-let g:airline#extensions#tabline#enabled = 1                " Display open buffers+tabs on top bar
-let g:airline#extensions#tabline#nametruncate = 16          " Max buffer name of 16 chars
-let g:airline#extensions#tabline#fnamecollapse = 2          " Only show 2 trunc'd parent dirs
-let g:airline#extensions#tabline#buffer_idx_mode = 1        " Show navigable buffer number
-let g:airline#extensions#branch#displayed_head_limit = 16   " Limit branch names to first 16 chars
+let g:airline#extensions#branch#displayed_head_limit = 16   " limit branch names to first 16 chars
+let g:airline#extensions#tabline#enabled = 1                " display open buffers+tabs on top bar
+let g:airline#extensions#tabline#fnamecollapse = 2          " only show 2 trunc'd parent dirs
+let g:airline#extensions#tabline#nametruncate = 16          " max buffer name of 16 chars
+let g:airline#extensions#tabline#buffer_idx_mode = 1        " show buffer index  on tabline
 
 " Markdown-preview.nvim
 let g:mkdp_browser = 'firefox'
@@ -183,12 +229,18 @@ let g:vimtex_view_general_viewer = 'zathura'
 let g:vimtex_compiler_progname = 'tectonic'
 let g:tex_conceal='abdmg'
 
-
-" UltiSnips
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsExpandTrigger='<NUL>'
+" https://github.com/SirVer/ultisnips/issues/376
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+  let snippet = UltiSnips#ExpandSnippetOrJump()
+  if g:ulti_expand_or_jump_res > 0 | return snippet | else | return "\<CR>" | endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+
 
 " Deoplete
 call deoplete#custom#option('sources', {
@@ -208,88 +260,6 @@ let g:highlightedyank_highlight_duration = 300
 " Supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
-" =============================================================================
-" # VISUAL SETTINGS
-" =============================================================================
-
-" Visual settings
-syntax enable                   " Syntax highlighting for applicable buffers
-set noshowmode                  " Hide -- MODE -- on bottom line
-set wrap                        " Wrap long lines to next display line
-set linebreak                   " Wrap between words, not within
-set showmatch                   " Highlight matching paired symbol
-set display+=lastline           " Always show last line of paragraph
-set scrolloff=3                 " Show n lines above/below cursor when scrolling
-set sidescrolloff=5             " Show n columns to sides when scrolling
-set noerrorbells                " Disable error bells
-set novisualbell                " Especially disable visual error bell
-set background=dark             " Make Vim use the correct colors in my scheme
-set t_RV=''                     " Don't query for terminal version info
-set t_ut=''                     " Disable background color erase
-hi clear SignColumn             " For some reason, sign column wasn't using bgcolor
-hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
-hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
-hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
-hi DiffText    cterm=undercurl  ctermfg=Yellow   ctermbg=none
-let &t_Cs = "\e[4:3m"           " Fix undercurl behavior
-let &t_Ce = "\e[4:0m"           " Fix undercurl behavior
-hi ALEWarning cterm=undercurl ctermbg=none ctermul=blue
-hi ALEError cterm=undercurl ctermbg=none ctermul=red
-hi MatchWord cterm=underline gui=underline
-
-" =============================================================================
-" # EDITOR SETTINGS
-" =============================================================================
-
-" Functional settings
-set nocompatible                " Disable vi compatibility
-set encoding=utf8               " Always write utf-8 encoded files
-set termencoding=utf8           " Characters appear in utf-8
-scriptencoding=utf8             " Just for this file, since it has multibyte chars
-set backspace=indent,eol,start  " Allow backspace across [chars]
-set autoread                    " If file is changed outside vim, reload it
-set autochdir                   " Ensure working directory = directory of vim
-set ttyfast                     " Redraw faster
-set lazyredraw                  " Don't draw screen during command execution
-set undofile                    " Enable preserved histories across sessions
-set undodir=~/.vim/undodir      " Store histories in specific dir instead of same as file
-set mouse=a                     " Enable mouse
-set ttymouse=sgr                " Change how vim understands mouse inputs
-set splitbelow                  " Open :split buffers on bottom
-set splitright                  " Open :vsplit buffers on right
-set hidden                      " Allow hidden buffers
-set ignorecase                  " No case = any case
-set smartcase                   " Adding case = case sensitive
-set hlsearch                    " Highlight results
-set incsearch                   " Jump to nearest result as you search
-set foldmethod=syntax           " Use syntax to define folds
-set clipboard^=unnamedplus      " Use system clipboard always
-filetype plugin indent on       " Autoindent+plugins per filetype
-
-" Formatting settings
-set shiftround                  " Round 'shift' to shiftwidth
-set textwidth=80                " Wrap to new buffer line based on column width.
-set formatoptions+=c            " Auto-formatting based on textwidth; respects comments
-set formatoptions-=t
-set noendofline                 " Disable automatically added newline
-
-" Information settings
-set ruler                       " Display position on statusbar
-set number                      " Line numbers
-set relativenumber              " Distances from cursor in line numbers
-set laststatus=2                " Display statusline always
-set wildmenu                    " Enable command completion after :
-set wildmode=longest:full,list  " Autocomplete to longest common string
-set title                       " Show vim status on title bar if applicable
-set showcmd                     " Show currently typed command
-set history=1000                " Preserve n changes
-
-" Completion
-set completeopt=menuone,noinsert,noselect
-" Better display for messages
-set cmdheight=2
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
 
 " =============================================================================
 " # KEYBOARD SHORTCUTS
@@ -407,17 +377,6 @@ command! -bang -nargs=? -complete=dir FzfFiles
 " # AUTOCOMMANDS
 " =============================================================================
 
-" Remember last edited location when reopening file, if valid
-augroup remember_last_position
-    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-augroup END
-
-augroup file_settings
-    autocmd FileType md,svn,*commit* setlocal spell
-augroup END
-
-" Add group from jsx
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
-augroup END
+augroup recall_pos | au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif | augroup END
+augroup filetype_settings | autocmd FileType md,markdown,svn,*commit* setlocal spell | augroup END
+augroup FiletypeGroup | autocmd! | au BufNewFile,BufRead *.jsx set filetype=javascript.jsx | augroup END
