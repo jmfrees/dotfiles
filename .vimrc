@@ -5,6 +5,7 @@
 if !isdirectory($HOME.'/.vim') | call mkdir($HOME.'/.vim', '', 0700) | endif
 if !isdirectory($HOME.'/.vim/undodir') | call mkdir($HOME.'/.vim/undodir', '', 0700) | endif
 
+let g:hardtime_default_on = 0
 let g:remoteSession = !($SSH_TTY ==? '')
 if g:remoteSession | colorscheme slate | else | colorscheme default | endif
 if filereadable('/bin/fish') | set shell=/bin/fish\ --login | else | set shell=/bin/bash\ --login | endif
@@ -26,19 +27,22 @@ let &t_Ce="\e[4:0m"                 " and end it. Should be detected, but nope
 syntax enable                       " Syntax highlighting for applicable buffers
 set noshowmode showmatch            " Hide MODE on statusbar, highlight paired symbols
 set wrap linebreak display=lastline " Wrap display line between words, no filler chars
-set scrolloff=5 sidescrolloff=5     " Visual buffer around editing area
+set scrolloff=10 sidescrolloff=10   " Visual buffer around editing area
 set noerrorbells novisualbell       " No bells
 set background=dark                 " Make Vim use the correct colors in my scheme
 hi clear SignColumn                 " For some reason, sign column wasn't using bgcolor
-" fix diff highlighting / TODO: nvim compat?
-hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
-hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
-hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
-hi DiffText    cterm=undercurl  ctermul=Yellow   ctermbg=none
-hi SpellBad    cterm=undercurl  ctermul=Red      ctermbg=none
-hi ALEWarning  cterm=undercurl  ctermbg=none     ctermul=blue
-hi ALEError    cterm=undercurl  ctermbg=none     ctermul=red
-hi MatchWord   cterm=underline  gui=underline
+if !has('nvim')
+  hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
+  hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
+  hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
+  hi DiffText    cterm=undercurl  ctermul=Yellow   ctermbg=none
+  hi SpellBad    cterm=undercurl  ctermul=Red      ctermbg=none
+  hi ALEWarning  cterm=undercurl  ctermbg=none     ctermul=blue
+  hi ALEError    cterm=undercurl  ctermbg=none     ctermul=red
+  hi MatchWord   cterm=underline  gui=underline
+else
+  " TODO
+endif
 
 " =============================================================================
 " # EDITOR SETTINGS
@@ -51,6 +55,7 @@ set backspace=indent,eol,start      " Allow backspace across [chars]
 set autoread hidden                 " Reload on change, allow unfocused edited buffers
 set ttyfast lazyredraw              " Render faster, don't render during commands
 set undofile undodir=~/.vim/undodir history=5000  " Maintain history
+if !g:hardtime_default_on | set mouse=a | else | set mouse= | endif
 set splitbelow splitright           " Split like i3
 set clipboard^=unnamedplus          " Use system clipboard always
 set ignorecase smartcase hlsearch incsearch       " Convenient search options
@@ -112,12 +117,15 @@ call plug#begin()
     Plug 'tpope/vim-sleuth'                     " Auto-adjust tab behavior based on open file
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'			        " Better bracket binds
+    Plug 'takac/vim-hardtime'                   " Become better
 
     " Auto complete suggestions
     Plug 'ervandew/supertab'                    " Smart tab complete
-    Plug 'Shougo/deoplete.nvim'                 " More supported completion pop-up
-    if !has('nvim')
-      Plug 'roxma/nvim-yarp'                    " deoplete
+    if has('nvim')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      Plug 'Shougo/deoplete.nvim'               " More supported completion pop-up
+      Plug 'roxma/nvim-yarp'
       Plug 'roxma/vim-hug-neovim-rpc'
     endif
 
@@ -260,6 +268,10 @@ let g:highlightedyank_highlight_duration = 300
 " Supertab
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
+" Hardtime
+let g:hardtime_allow_different_key = 1
+" No arrow keys --- force yourself to use the home row
+let g:list_of_disabled_keys = ['<UP>', '<DOWN>', '<LEFT>', '<RIGHT>', '<PAGEUP>', '<PAGEDOWN>']
 
 " =============================================================================
 " # KEYBOARD SHORTCUTS
@@ -290,14 +302,6 @@ tnoremap <c-b> <c-\><c-n>
 
 " Open new file adjacent to current file
 nnoremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-" No arrow keys --- force yourself to use the home row
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
 
 " Move by line
 nnoremap j gj
