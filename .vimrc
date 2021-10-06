@@ -31,7 +31,9 @@ set scrolloff=10 sidescrolloff=10   " Visual buffer around editing area
 set noerrorbells novisualbell       " No bells
 set background=dark                 " Make Vim use the correct colors in my scheme
 hi clear SignColumn                 " For some reason, sign column wasn't using bgcolor
-if !has('nvim')
+if has('nvim')
+  " TODO
+else
   hi DiffAdd     cterm=italic     ctermfg=Green    ctermbg=none
   hi DiffChange  cterm=none       ctermfg=Yellow   ctermbg=none
   hi DiffDelete  cterm=bold       ctermfg=Red      ctermbg=none
@@ -40,8 +42,6 @@ if !has('nvim')
   hi ALEWarning  cterm=undercurl  ctermbg=none     ctermul=blue
   hi ALEError    cterm=undercurl  ctermbg=none     ctermul=red
   hi MatchWord   cterm=underline  gui=underline
-else
-  " TODO
 endif
 
 " =============================================================================
@@ -118,6 +118,7 @@ call plug#begin()
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-unimpaired'			        " Better bracket binds
     Plug 'takac/vim-hardtime'                   " Become better
+    Plug 'kkvh/vim-docker-tools'
 
     " Auto complete suggestions
     Plug 'ervandew/supertab'                    " Smart tab complete
@@ -337,7 +338,7 @@ nnoremap <leader>gd :Gvdiffsplit!<CR>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
 nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gb :Git blame<CR>
 nnoremap <Leader>gl :Glog<CR>
 
 """"""""""""""""""""""""""""""""""""""""""
