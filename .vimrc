@@ -98,7 +98,6 @@ call plug#begin()
     Plug 'airblade/vim-gitgutter'               " Gitlens for vim
     Plug 'andymass/vim-matchup'                 " Extend % matching
     Plug 'machakann/vim-highlightedyank'        " Highlight yanked lines
-    Plug 'mhinz/vim-startify'                   " Fancy start screen with recall
     Plug 'tpope/vim-fugitive'                   " Git information and commands
     Plug 'vim-airline/vim-airline'              " Fancy status bar
 
