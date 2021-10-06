@@ -1,6 +1,0 @@
-#
-# ~/.bash_commands
-#
-
-export EDITOR='vim'
-export BROWSER='firefox'
