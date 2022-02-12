@@ -3,10 +3,10 @@ alias df='df -h'                # human-readable sizes
 alias du='du -h'                # ditto
 alias free='free -m'            # show sizes in MB
 alias rm='rm -iv'               # confirm before deletion
-alias wpm="/home/jmfrees/.local/share/virtualenvs/wpm-gVYDynyg/bin/python -m wpm"
 alias icat="kitty +kitten icat"
 alias d="kitty +kitten diff"
 alias hg='kitty +kitten hyperlinked_grep'
+alias vim='nvim'
 
 # alias for git directory belonging to my dotfiles
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
