@@ -3,7 +3,7 @@
 # The following is a liost of errors pertaining exclusively to formatting.
 # The full list can be found here:
 # https://pycodestyle.readthedocs.io/en/latest/intro.html#error-codes
-# 
+#
 # E203 whitespace before ':'
 # E221 multiple spaces before operator
 # E222 multiple spaces after operator
@@ -17,4 +17,4 @@
 ignore=E203,E221,E222,E262,E265,E501,W291,W503,W504
 
 max-complexity=5
-max-line-length=80
+max-line-length=120
