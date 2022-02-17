@@ -8,8 +8,7 @@ if !isdirectory($HOME.'/.vim/undodir') | call mkdir($HOME.'/.vim/undodir', '', 0
 let g:hardtime_default_on = 0
 let g:remoteSession = !($SSH_TTY ==? '')
 if g:remoteSession | colorscheme slate | else | colorscheme default | endif
-if filereadable('/bin/fish') | set shell=/bin/fish\ --login | else | set shell=/bin/bash\ --login | endif
-
+if filereadable('/bin/fish') | set shell=/bin/fish | else | set shell=/bin/bash | endif
 let mapleader = "\<Space>"
 
 " bugfixes
@@ -128,6 +127,7 @@ call plug#begin()
       Plug 'roxma/nvim-yarp'
       Plug 'roxma/vim-hug-neovim-rpc'
     endif
+    Plug 'github/copilot.vim'
 
     Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     Plug 'lervag/vimtex', {'for': ['tex', 'plaintex']}        " LaTeX previewer, \ll to start
