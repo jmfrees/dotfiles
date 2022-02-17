@@ -1,6 +1,6 @@
 # Instructions for system setup
 
-```
+```bash
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 echo ".dotfiles" >> .gitignore
 git clone --bare git@github.com:jmfrees/dotfiles.git $HOME/.dotfiles
@@ -19,6 +19,14 @@ sudo pacman -S --needed - < .pacman_package_list
 
 # install packages
 bash ~/.config/archpaks/install.sh
+
+#### vim setup ####
+
+# install vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# you'll want to run `:PlugInstall` inside of vim
+
 ```
 
 ## Acknowledgements
