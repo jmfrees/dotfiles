@@ -159,7 +159,7 @@ let g:ale_linters = {
                 \   'javascript': ['eslint', 'tsserver'],
                 \   'json': ['jsonlint'],
                 \   'markdown': ['alex', 'proselint', 'writegood', 'textlint'],
-                \   'python': ['bandit', 'flake8', 'pyls',  'pyright'],
+                \   'python': ['bandit', 'pyls',  'pyright'],
                 \   'rust': ['cargo', 'rls'],
                 \   'sh': ['shell', 'shellcheck', 'language_server'],
                 \   'sql': ['sqlint', 'sql-language-server'],
