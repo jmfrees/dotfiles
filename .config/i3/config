@@ -70,7 +70,7 @@ bindsym $mod+Ctrl+l exec i3lock -e -c 222222
 
 # program actions on binds
 # sf = selected font, sb = selected background, nf = normal font, nb = normal background
-bindsym $mod+d exec dmenu_run -g 8 -l 8 -i -fn "Terminus (TTF)" -sf "$term_color7" -sb "$term_color13" -nf "$term_color15" -nb "$term_background"
+bindsym $mod+d exec dmenu_run -fn "Terminus (TTF)" -sf "$term_color7" -sb "$term_color13" -nf "$term_color15" -nb "$term_background"
 bindsym $mod+Shift+b exec feh --bg-scale ~/Media/Wallpapers/blank.jpg $normalnotif "Feh" "Blanking wallpaper"
 bindsym $mod+Shift+w exec feh --bg-scale --randomize ~/Media/Wallpapers/* $normalnotif "Feh" "Changing wallpaper"
 bindsym $mod+Shift+m exec autorandr -c $normalnotif "Autorandr" "Checking monitors"
