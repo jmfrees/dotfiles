@@ -65,6 +65,8 @@ SETUVAR _fish_abbr_pr:pdm\x20run
 SETUVAR _fish_abbr_publicipv4:dig\x20\x2bshort\x20myip\x2eopendns\x2ecom\x20\x40resolver1\x2eopendns\x2ecom
 SETUVAR _fish_abbr_publicipv6:dig\x20TXT\x20\x2bshort\x20o\x2do\x2emyaddr\x2el\x2egoogle\x2ecom\x20\x40ns1\x2egoogle\x2ecom
 SETUVAR _fish_abbr_pvim:pdm\x20run\x20vim
+SETUVAR _fish_abbr_scrr:screen\x20\x2dr
+SETUVAR _fish_abbr_scrs:screen\x20\x2dS
 SETUVAR _fish_abbr_sp:kitty\x20\x26\x20disown
 SETUVAR _fish_abbr_vi:vim
 SETUVAR _fish_abbr_vimwiki:vim\x20\x7e/\x2evimwiki/index\x2ewiki
