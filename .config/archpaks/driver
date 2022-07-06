@@ -8,6 +8,7 @@ alsa-firmware
 alsa-utils
 apache
 arandr
+arch-audit
 asciinema
 astyle
 atool
@@ -75,7 +76,6 @@ gst-plugin-pipewire
 gtop
 gvim
 gzip
-hardinfo
 hddtemp
 hexyl
 highlight
@@ -98,9 +98,9 @@ iw
 iwd
 jdk8-openjdk
 jq
-jupyter
 kernel-modules-hook
 kitty
+kompose
 kubeadm
 kubectl
 libcss
@@ -136,12 +136,14 @@ mplayer
 mtools
 nano
 neofetch
+neovim
 net-tools
 netctl
 netperf
 network-manager-applet
 networkmanager
 networkmanager-openvpn
+networkmanager-pptp
 nfs-utils
 ngrep
 nmap
@@ -171,7 +173,6 @@ perf
 pipewire
 pipewire-alsa
 pipewire-jack
-pipewire-media-session
 pipewire-pulse
 pkgconf
 pkgfile
@@ -185,8 +186,6 @@ pypy3
 pyright
 python-black
 python-flask
-python-pip
-python-pipenv
 python-pipx
 python-pylint
 python-pynvim
@@ -194,11 +193,13 @@ python-sympy
 qbittorrent
 realtime-privileges
 reaver
+redis
 ripgrep
 rmlint
 rtirq
 rtmpdump
 ruby-docs
+rust-src
 rxvt-unicode
 sassc
 schedtool
@@ -208,6 +209,7 @@ sl
 smartmontools
 speedtest-cli
 starship
+steam
 strace
 sudo
 swig
@@ -227,7 +229,6 @@ texlive-pstricks
 texlive-publishers
 texlive-science
 thermald
-thunderbird
 tig
 tlp
 tmon
@@ -261,6 +262,7 @@ wget
 which
 whois
 wireless_tools
+wireplumber
 wireshark-cli
 wireshark-qt
 wpa_supplicant
@@ -281,8 +283,9 @@ xorg-xkbutils
 xournalpp
 xreader
 xterm
+yamllint
 yarn
-youtube-dl
+yt-dlp
 zathura
 zathura-pdf-mupdf
 zip
