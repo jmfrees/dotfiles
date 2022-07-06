@@ -188,6 +188,9 @@ bindsym $mod+Shift+0 move container to workspace $ws10; workspace $ws10
 bindsym $mod+Ctrl+greater move workspace to output right
 bindsym $mod+Ctrl+less move workspace to output left
 
+# focus parent container
+bindsym $mod+p focus parent
+
 # scratchpad
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+Shift+plus scratchpad show
