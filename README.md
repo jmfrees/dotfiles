@@ -10,7 +10,7 @@ git clone --bare git@github.com:jmfrees/dotfiles.git $HOME/.dotfiles
 config stash && config checkout
 config config --local status.showUntrackedFiles no
 
-# install paru
+# install Paru
 sudo pacman -S --needed base-devel
 git clone https://aur.archlinux.org/paru.git
 cd paru
@@ -20,14 +20,12 @@ makepkg -si
 cd ~/.config/archpaks/
 bash install.sh # no need for chmod
 
-#### vim setup ####
-
-# install vim-plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-# you'll want to run `:PlugInstall` inside of vim
-
 ```
+
+## Vim setup
+
+I use LunarVim as my main IDE. Follow the instructions for installing
+LunarVim found [here](https://github.com/LunarVim/LunarVim#linux).
 
 ## Acknowledgements
 
