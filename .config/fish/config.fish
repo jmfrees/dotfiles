@@ -6,7 +6,7 @@ alias rm='rm -iv'               # confirm before deletion
 alias icat="kitty +kitten icat"
 alias d="kitty +kitten diff"
 alias hg='kitty +kitten hyperlinked_grep'
-alias vim='nvim'
+alias vim='lvim'
 
 # alias for git directory belonging to my dotfiles
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
