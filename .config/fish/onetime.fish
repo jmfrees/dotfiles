@@ -3,6 +3,7 @@ for a in (abbr -l)
     abbr -e $a
 end
 
+abbr -a -- :q 'exit'
 abbr -a -- c 'xclip -sel clip'
 abbr -a -- d 'kitty +kitten diff'
 abbr -a -- dpr 'doppler run -- pdm run'
@@ -69,7 +70,6 @@ abbr -a -- sp 'kitty & disown'
 abbr -a -- vi vim
 abbr -a -- boxdraw 'curl https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-demo.txt'
 abbr -a -- c 'xsel --clipboard'
-abbr -a -- d doppler
 abbr -a -- dcl 'docker container ls'
 abbr -a -- de 'docker exec -it'
 abbr -a -- df 'df -h'
