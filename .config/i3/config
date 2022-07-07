@@ -208,9 +208,8 @@ workspace_auto_back_and_forth yes
 # Start i3bar+i3status
 bar {
     i3bar_command i3bar
-    status_command i3status
+    status_command i3status-rs $HOME/.config/i3status-rust/config.toml
     position top
-    separator_symbol "▕ "
     strip_workspace_numbers no  # never remove workspace numbers
     colors {
         background $term_background
