@@ -13,7 +13,7 @@ if not [ -f "/usr/bin/paru" ]; then
     rm -rf ./paru
 fi;
 
-echo "Installing main packages with pacman -Syu --needed - < ./driver"
+echo "Installing main packages with paru -Syu --needed - < ./driver"
                                     paru -Syu --needed - < ./driver
 echo "Installing AUR packages with paru -Syu --needed - < ./external"
 # TODO: pacman needs sudo, but paru complains about being run as root
