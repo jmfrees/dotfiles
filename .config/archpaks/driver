@@ -84,6 +84,7 @@ hwinfo
 i3-gaps
 i3blocks
 i3status
+i3status-rust
 icoutils
 ifplugd
 iftop
@@ -282,6 +283,7 @@ xorg-xinput
 xorg-xkbutils
 xournalpp
 xreader
+xsel
 xterm
 yamllint
 yarn
