@@ -10,16 +10,15 @@ git clone --bare git@github.com:jmfrees/dotfiles.git $HOME/.dotfiles
 config stash && config checkout
 config config --local status.showUntrackedFiles no
 
-# install Paru
-sudo pacman -S --needed base-devel
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si
-
 # home
 cd ~/.config/archpaks/
-bash install.sh # no need for chmod
+bash install.sh
 
+# fish setup
+chsh -s /usr/bin/fish
+fish
+fisher install < ~/.config/fish/fish_plugins
+fish ~/.config/fish/onetime.fish
 ```
 
 ## Vim setup
