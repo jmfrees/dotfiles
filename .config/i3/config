@@ -82,7 +82,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -10% $
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute 1 toggle $normalnotif "PulseAudio" $miccheck
 bindsym $mod+Print exec scrot -q 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took full screenshot"
 bindsym $mod+Ctrl+Print exec scrot -uq 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took screenshot of focused window"
-bindsym $mod+Shift+Print --release exec sleep 0.05 && scrot -sq 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took screenshot of selection"
+bindsym $mod+Shift+Print --release exec sleep 0.05 && scrot -s -q 100 -e 'mv $f ~/Media/' $normalnotif "Screenshot" "Took screenshot of selection"
 # sleep is from Archwiki. Selection border will appear in image if scrot is invoked via wm keybind, unless sleep
 # also, this one won't work without --release. no idea why.
 
