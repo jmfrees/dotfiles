@@ -73,23 +73,23 @@ lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
--- lvim.builtin.nvimtree.show_icons.git = 1
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
 
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "c",
-  "css",
-  "fish",
-  "java",
-  "javascript",
-  "json",
-  "lua",
-  "markdown",
-  "python",
-  "rust",
-  "tsx",
-  "typescript",
-  "yaml",
+	"bash",
+	"c",
+	"css",
+	"fish",
+	"java",
+	"javascript",
+	"json",
+	"lua",
+	"markdown",
+	"python",
+	"rust",
+	"tsx",
+	"typescript",
+	"yaml",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -97,74 +97,75 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
-  { command = "black", filetypes = { "python" } },
-  { command = "isort", filetypes = { "python" } },
-  { command = "rustfmt", filetypes = { "rust" } },
-  { command = "shfmt", filetypes = { "bash" } },
-  { command = "stylua", filetypes = { "lua" } },
-  {
-    command = "prettier",
-    extra_args = { "--print-with=100" },
-    filetypes = { "typescript", "typescriptreact", "html", "css", "md", "markdown", "yaml", "yml" },
-  },
+	{ command = "black", filetypes = { "python" } },
+	{ command = "isort", filetypes = { "python" } },
+	{ command = "rustfmt", filetypes = { "rust" } },
+	{ command = "shfmt", filetypes = { "bash" } },
+	{ command = "stylua", filetypes = { "lua" } },
+	{
+		command = "prettier",
+		extra_args = { "--print-with=100" },
+		filetypes = { "typescript", "typescriptreact", "html", "css", "md", "markdown", "yaml", "yml" },
+	},
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
-  {
-    command = "shellcheck",
-    extra_args = { "--severity", "warning" },
-  },
-  { command = "checkmake", filetypes = { "Makefile" } },
-  { command = "hadolint", filetypes = { "docker" } },
+	{
+		command = "shellcheck",
+		extra_args = { "--severity", "warning" },
+	},
+	{ command = "checkmake", filetypes = { "Makefile" } },
+	{ command = "hadolint", filetypes = { "docker" } },
 })
 
 -- Additional Plugins
 lvim.plugins = {
-  {
-    "folke/trouble.nvim",
-    cmd = "TroubleToggle",
-  },
-  {
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && yarn install",
-    cmd = "MarkdownPreview",
-  },
-  {
-    "ggandor/lightspeed.nvim",
-    event = "BufEnter",
-    config = function()
-      require("lightspeed")
-    end,
-  },
-  {
-    "echasnovski/mini.nvim",
-    -- after = "nvim-web-devicons",
-    config = function()
-      require("mini.indentscope").setup()
-      require("mini.sessions").setup()
-      -- require("mini.surround").setup()
-      require("mini.trailspace").setup()
-    end,
-  },
-  {
-    "ahmedkhalf/lsp-rooter.nvim",
-    event = "BufRead",
-    config = function()
-      require("lsp-rooter").setup()
-    end,
-  },
-  { "hrsh7th/cmp-cmdline", after = "cmp-path" },
-  {
-    "tpope/vim-surround",
-    keys = { "c", "d", "y" },
-    setup = function()
-      vim.o.timeoutlen = 500
-    end
-  },
+	{ "folke/tokyonight.nvim" },
+	{
+		"folke/trouble.nvim",
+		cmd = "TroubleToggle",
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		run = "cd app && yarn install",
+		cmd = "MarkdownPreview",
+	},
+	{
+		"ggandor/lightspeed.nvim",
+		event = "BufEnter",
+		config = function()
+			require("lightspeed")
+		end,
+	},
+	{
+		"echasnovski/mini.nvim",
+		-- after = "nvim-web-devicons",
+		config = function()
+			require("mini.indentscope").setup()
+			require("mini.sessions").setup()
+			-- require("mini.surround").setup()
+			require("mini.trailspace").setup()
+		end,
+	},
+	{
+		"ahmedkhalf/lsp-rooter.nvim",
+		event = "BufRead",
+		config = function()
+			require("lsp-rooter").setup()
+		end,
+	},
+	{ "hrsh7th/cmp-cmdline", after = "cmp-path" },
+	{
+		"tpope/vim-surround",
+		keys = { "c", "d", "y" },
+		setup = function()
+			vim.o.timeoutlen = 500
+		end,
+	},
 }
 
 vim.api.nvim_create_autocmd(
-  "BufReadPost",
-  { pattern = "*", command = [[if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif]] }
+	"BufReadPost",
+	{ pattern = "*", command = [[if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif]] }
 )
 vim.api.nvim_create_autocmd("FileType", { pattern = "md,markdown,svn,*commmit*", command = [[setlocal spell]] })
