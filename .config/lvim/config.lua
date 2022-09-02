@@ -32,7 +32,7 @@ vim.keymap.set({ "n", "i" }, "<Right>", "<NOP>", { silent = true })
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
-lvim.lsp.automatic_servers_installation = true
+-- lvim.lsp.installer.setup.automatic_installation = true
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -99,21 +99,19 @@ local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
 	{ command = "black", filetypes = { "python" } },
 	{ command = "isort", filetypes = { "python" } },
-	{ command = "rustfmt", filetypes = { "rust" } },
-	{ command = "shfmt", filetypes = { "bash" } },
-	{ command = "stylua", filetypes = { "lua" } },
 	{
 		command = "prettier",
-		extra_args = { "--print-with=100" },
-		filetypes = { "typescript", "typescriptreact", "html", "css", "md", "markdown", "yaml", "yml" },
+		extra_args = { "--print-width", "80" },
+		filetypes = { "typescript", "typescriptreact", "html", "css", "markdown", "yaml" },
 	},
+	{ command = "rustfmt", filetypes = { "rust" } },
+	{ command = "shfmt", filetypes = { "sh", "bash" } },
+	{ command = "stylua", filetypes = { "lua" } },
+	{ command = "sql-formatter", filetypes = { "sql" } },
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
-	{
-		command = "shellcheck",
-		extra_args = { "--severity", "warning" },
-	},
+	{ command = "shellcheck", filetypes = { "sh", "bash" } },
 	{ command = "checkmake", filetypes = { "Makefile" } },
 	{ command = "hadolint", filetypes = { "docker" } },
 })
@@ -162,6 +160,7 @@ lvim.plugins = {
 			vim.o.timeoutlen = 500
 		end,
 	},
+	{ "tpope/vim-repeat" },
 }
 
 vim.api.nvim_create_autocmd(
