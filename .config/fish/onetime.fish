@@ -11,6 +11,7 @@ abbr -a -- dr 'doppler run --'
 abbr -a -- drcr 'doppler run -- docker compose'
 abbr -a -- drpr 'doppler run -- pdm run'
 abbr -a -- dry 'doppler run -- yarn'
+abbr -a -- fbt 'doppler run -- pdm run fbt'
 abbr -a -- g git
 abbr -a -- ga 'git add'
 abbr -a -- gb 'git branch'
