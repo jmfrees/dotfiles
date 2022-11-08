@@ -27,6 +27,8 @@ vim.keymap.set({ "n", "i" }, "<Up>", "<NOP>", { silent = true })
 vim.keymap.set({ "n", "i" }, "<Down>", "<NOP>", { silent = true })
 vim.keymap.set({ "n", "i" }, "<Left>", "<NOP>", { silent = true })
 vim.keymap.set({ "n", "i" }, "<Right>", "<NOP>", { silent = true })
+lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 
 -- lvim
 lvim.log.level = "warn"
@@ -38,42 +40,25 @@ lvim.colorscheme = "onedarker"
 lvim.leader = "space"
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
-
 -- Use which-key to add extra bindings with the leader-key prefix
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
--- }
+lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["t"] = {
+	name = "+Trouble",
+	r = { "<cmd>Trouble lsp_references<cr>", "References" },
+	f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+	d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+	q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+	l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+	w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
+}
 
-lvim.builtin.alpha.active = true
-lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
+lvim.builtin.alpha.active = false
+lvim.builtin.nvimtree.active = false
+lvim.builtin.lir.active = false
+lvim.builtin.illuminate.active = false
+lvim.builtin.dap.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
+lvim.builtin.terminal.open_mapping = "<c-t>"
 
 lvim.builtin.treesitter.ensure_installed = {
 	"bash",
@@ -102,7 +87,7 @@ formatters.setup({
 	{
 		command = "prettier",
 		extra_args = { "--print-width", "80" },
-		filetypes = { "typescript", "typescriptreact", "html", "css", "markdown", "yaml" },
+		filetypes = { "typescript", "typescriptreact", "javascript", "html", "css", "markdown", "yaml" },
 	},
 	{ command = "rustfmt", filetypes = { "rust" } },
 	{ command = "shfmt", filetypes = { "sh", "bash" } },
@@ -124,25 +109,9 @@ lvim.plugins = {
 		cmd = "TroubleToggle",
 	},
 	{
-		"iamcco/markdown-preview.nvim",
-		run = "cd app && yarn install",
-		cmd = "MarkdownPreview",
-	},
-	{
-		"ggandor/lightspeed.nvim",
-		event = "BufEnter",
+		"ggandor/leap.nvim",
 		config = function()
-			require("lightspeed")
-		end,
-	},
-	{
-		"echasnovski/mini.nvim",
-		-- after = "nvim-web-devicons",
-		config = function()
-			require("mini.indentscope").setup()
-			require("mini.sessions").setup()
-			-- require("mini.surround").setup()
-			require("mini.trailspace").setup()
+			require("leap").add_default_mappings()
 		end,
 	},
 	{
@@ -152,14 +121,13 @@ lvim.plugins = {
 			require("lsp-rooter").setup()
 		end,
 	},
-	{ "hrsh7th/cmp-cmdline", after = "cmp-path" },
 	{
-		"tpope/vim-surround",
-		keys = { "c", "d", "y" },
-		setup = function()
-			vim.o.timeoutlen = 500
+		"windwp/nvim-ts-autotag",
+		config = function()
+			require("nvim-ts-autotag").setup()
 		end,
 	},
+	{ "tpope/vim-surround" },
 	{ "tpope/vim-repeat" },
 }
 
