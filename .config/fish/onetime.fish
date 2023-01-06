@@ -79,6 +79,12 @@ abbr -a -- dil 'docker image ls'
 abbr -a -- dl 'docker logs'
 abbr -a -- dp 'docker ps'
 abbr -a -- dpa 'docker ps --all'
+abbr -a -- dc 'docker compose'
+abbr -a -- dcu 'docker compose up'
+abbr -a -- dcd 'docker compose down'
+abbr -a -- dck 'docker compose kill'
+abbr -a -- dcl 'docker compose logs'
+abbr -a -- dclf 'docker compose logs -f'
 abbr -a -- dr 'doppler run --'
 abbr -a -- drdc 'doppler run -- docker compose'
 abbr -a -- drpi 'doppler run -- pdm install'
@@ -158,3 +164,5 @@ abbr -a -- prp 'pdm run python'
 abbr -a -- pu 'pdm update'
 abbr -a -- y yarn
 abbr -a -- yb 'yarn build'
+
+set -U fish_greeting ""
