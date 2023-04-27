@@ -51,7 +51,8 @@ return {
       return {
         sources = {
           -- nls.builtins.diagnostics.pydocstyle,
-
+          nls.builtins.formatting.fish_indent,
+          nls.builtins.diagnostics.fish,
           nls.builtins.formatting.beautysh,
           nls.builtins.formatting.prettier.with({ extra_filetypes = { "svelte", "astro", "mdx", "svx" } }),
           nls.builtins.formatting.rubocop,
@@ -63,9 +64,12 @@ return {
           nls.builtins.formatting.yamlfmt,
           nls.builtins.formatting.black,
           nls.builtins.formatting.isort,
-          nls.builtins.formatting.gofumpt,
           nls.builtins.hover.printenv,
           nls.builtins.hover.dictionary,
+
+          nls.builtins.formatting.gofumpt,
+          -- nls.builtins.formatting.golines,
+          nls.builtins.diagnostics.golangci_lint,
 
           nls.builtins.formatting.trim_newlines,
           nls.builtins.formatting.trim_whitespace,
