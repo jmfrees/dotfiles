@@ -11,6 +11,7 @@ return {
         "astro",
         "bash",
         "c",
+        "go",
         "help",
         "html",
         "javascript",
@@ -51,30 +52,49 @@ return {
       return {
         sources = {
           -- nls.builtins.diagnostics.pydocstyle,
-          nls.builtins.formatting.fish_indent,
-          nls.builtins.diagnostics.fish,
-          nls.builtins.formatting.beautysh,
-          nls.builtins.formatting.prettier.with({ extra_filetypes = { "svelte", "astro", "mdx", "svx" } }),
-          nls.builtins.formatting.rubocop,
-          nls.builtins.formatting.rustfmt,
-          nls.builtins.formatting.shellharden,
-          nls.builtins.formatting.sql_formatter,
-          nls.builtins.formatting.stylua,
-          nls.builtins.formatting.taplo,
-          nls.builtins.formatting.yamlfmt,
-          nls.builtins.formatting.black,
-          nls.builtins.formatting.isort,
           nls.builtins.hover.printenv,
           nls.builtins.hover.dictionary,
-
-          nls.builtins.formatting.gofumpt,
-          -- nls.builtins.formatting.golines,
-          nls.builtins.diagnostics.golangci_lint,
 
           nls.builtins.formatting.trim_newlines,
           nls.builtins.formatting.trim_whitespace,
         },
       }
+    end,
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    },
+    config = function()
+      require("mason-null-ls").setup({
+        automatic_setup = true,
+        ensure_installed = {
+          "actionlint",
+          "ansiblelint",
+          "staticcheck",
+          "beautysh",
+          "black",
+          "fish",
+          "fish_indent",
+          "gofumpt",
+          "goimports",
+          -- "golines",
+          "golangci_lint",
+          "gopls",
+          "isort",
+          "prettier",
+          "rubocop",
+          "rustfmt",
+          "shellharden",
+          "sql_formatter",
+          "stylua",
+          "taplo",
+          "yamlfmt",
+        },
+      })
     end,
   },
   -- override nvim-cmp and add cmp-emoji
@@ -116,9 +136,7 @@ return {
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- they way you will only jump inside the snippet region
-          elseif luasnip.expand_or_jumpable() then
+          elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
