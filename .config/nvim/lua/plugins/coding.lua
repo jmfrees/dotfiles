@@ -45,7 +45,7 @@ return {
   },
   {
     "jose-elias-alvarez/null-ls.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = { "mason.nvim" },
     opts = function()
       local nls = require("null-ls")
@@ -70,30 +70,33 @@ return {
     },
     config = function()
       require("mason-null-ls").setup({
-        automatic_setup = true,
         ensure_installed = {
           "actionlint",
           "ansiblelint",
-          "staticcheck",
           "beautysh",
           "black",
           "fish",
           "fish_indent",
           "gofumpt",
           "goimports",
-          -- "golines",
           "golangci_lint",
-          "gopls",
+          "golangci_lint_langserver",
+          "golines",
           "isort",
           "prettier",
           "rubocop",
+          "rust_analyzer",
           "rustfmt",
           "shellharden",
           "sql_formatter",
+          "staticcheck",
           "stylua",
           "taplo",
           "yamlfmt",
         },
+        automatic_setup = true,
+        automatic_installation = false,
+        handlers = {},
       })
     end,
   },
