@@ -24,9 +24,7 @@ return {
         cursor = {
           timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
         },
-        resize = {
-          timing = animate.gen_timing.linear({ duration = 100, unit = "total" }),
-        },
+        resize = { enable = false },
         scroll = { enable = false },
         open = { enable = false },
         close = { enable = false },
@@ -40,34 +38,14 @@ return {
   -- which-key
   {
     "folke/which-key.nvim",
-    event = "VeryLazy",
-    config = function()
-      local wk = require("which-key")
-      wk.setup({
-        plugins = { spelling = true },
-        key_labels = { ["<leader>"] = "SPC" },
-      })
-      wk.register({
-        mode = { "n", "v" },
-        ["g"] = { name = "+goto" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>c"] = { name = "+code" },
+    optional = true,
+    opts = {
+      defaults = {
         ["<leader>d"] = { name = "+debug" },
-        ["<leader>f"] = { name = "+file" },
-        ["<leader>g"] = { name = "+git" },
-        ["<leader>h"] = { name = "+help" },
-        ["<leader>n"] = { name = "+noice" },
-        ["<leader>o"] = { name = "+open" },
-        ["<leader>q"] = { name = "+quit/session" },
+        ["<leader>da"] = { name = "+adapters" },
         ["<leader>r"] = { name = "+refactoring" },
-        ["<leader>s"] = { name = "+search" },
-        ["<leader>t"] = { name = "+toggle" },
-        ["<leader>x"] = { name = "+diagnostics/quickfix" },
-        ["<leader>w"] = { name = "+windows" },
-        ["<leader><tab>"] = { name = "+tabs" },
-      })
-    end,
+        ["<leader>t"] = { name = "+test" },
+      },
+    },
   },
 }
