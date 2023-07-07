@@ -80,7 +80,7 @@ return {
           "gofumpt",
           "golangci_lint",
           "goimports",
-          "golines",
+          -- "golines",
           "gopls",
           "isort",
           "prettier",
