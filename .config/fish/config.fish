@@ -175,4 +175,5 @@ abbr -a vim '$EDITOR'
 abbr -a y 'yarn'
 
 source ~/.config/fish/autojump.fish
+rtx activate fish | source
 starship init fish | source
