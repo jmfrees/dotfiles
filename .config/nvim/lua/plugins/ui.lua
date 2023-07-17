@@ -41,8 +41,6 @@ return {
     optional = true,
     opts = {
       defaults = {
-        ["<leader>d"] = { name = "+debug" },
-        ["<leader>da"] = { name = "+adapters" },
         ["<leader>r"] = { name = "+refactoring" },
         ["<leader>t"] = { name = "+test" },
       },
