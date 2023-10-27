@@ -41,7 +41,6 @@ return {
     optional = true,
     opts = {
       defaults = {
-        ["<leader>r"] = { name = "+refactoring" },
         ["<leader>t"] = { name = "+test" },
       },
     },
