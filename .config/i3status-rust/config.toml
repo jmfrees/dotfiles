@@ -1,42 +1,45 @@
-theme = "solarized-dark"
-icons = "awesome"
+[theme]
+theme = "bad-wolf"
+
+[icons]
+icons = "awesome6"
 
 [[block]]
 block = "music"
-marquee = false
-max_width = 21
-format = "{combo}"
+format = " $icon {$combo.str(max_w:20) $play $next |}"
 player = "spotify"
-hide_when_empty = true
-buttons = ["play", "next"]
 
 [[block]]
 block = "docker"
-interval = 2
-format = "{running}/{total}"
+format = "$icon$running "
+interval = 120
 
 [[block]]
 block = "temperature"
-collapsed = false
+format = "$icon"
+format_alt = "$icon $average avg, $max max "
 
 [[block]]
 block = "disk_space"
 path = "/"
-alias = "/"
-info_type = "available"
-unit = "GB"
-interval = 20
+format = "$icon "
+format_alt = "$icon $available / $total"
 warning = 20.0
 alert = 10.0
 
+
 [[block]]
 block = "memory"
-display_type = "memory"
-format_mem = "{mem_total_used_percents}"
-format_swap = "{swap_used_percents}"
+format = "$icon"
+format_alt = " $icon $mem_used / $mem_total ($mem_used_percents)"
+warning_mem = 50.0
+critical_mem = 90.0
+interval = 30
 
 [[block]]
 block = "cpu"
+format = "$icon"
+format_alt = "$icon $utilization $frequency $boost"
 
 [[block]]
 block = "load"
@@ -50,6 +53,7 @@ block = "sound"
 
 [[block]]
 block = "time"
-interval = 5
-format = "%a %d/%m %R"
-
+interval = 60
+[block.format]
+full = "$icon $timestamp.datetime(f:'%a %m/%d %R', l:en_US)"
+short = "$icon $timestamp.datetime(f:'%a')"
