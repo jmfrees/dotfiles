@@ -8,3 +8,6 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
 vim.opt.clipboard = ""
+-- vim.opt.tabstop = 8
+-- vim.opt.shiftwidth = 8
+-- vim.opt.expandtab = true
