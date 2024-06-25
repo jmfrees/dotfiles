@@ -5,7 +5,7 @@ set -U --export EDITOR nvim
 set -U --export fish_greeting ""
 set --export SHELL /bin/fish
 
-abbr -a :q 'exit'
+abbr -a :q exit
 abbr -a bp 'bat -P'
 abbr -a c 'xclip -sel clip'
 abbr -a cp 'cp -i'
@@ -16,7 +16,7 @@ abbr -a drcr 'doppler run -- docker compose'
 abbr -a drpr 'doppler run -- pdm run'
 abbr -a dry 'doppler run -- yarn'
 abbr -a fbt 'doppler run -- pdm run fbt'
-abbr -a g 'git'
+abbr -a g git
 abbr -a ga 'git add'
 abbr -a gb 'git branch'
 abbr -a gba 'git branch -a'
@@ -147,7 +147,7 @@ abbr -a gsts 'git stash show --text'
 abbr -a gwc 'git whatchanged -p --abbrev-commit --pretty=medium'
 abbr -a hg 'kitty +kitten hyperlinked_grep'
 abbr -a icat 'kitty +kitten icat'
-abbr -a m 'make'
+abbr -a m make
 abbr -a mb 'make build'
 abbr -a mbf 'make build-force'
 abbr -a mc 'make clean'
@@ -158,7 +158,7 @@ abbr -a mk 'make kill'
 abbr -a ms 'make stop'
 abbr -a mt 'make test'
 abbr -a mu 'make up'
-abbr -a p 'pdm'
+abbr -a p pdm
 abbr -a pa 'pdm add'
 abbr -a pc 'pdm sync'
 abbr -a pi 'pdm install'
@@ -172,8 +172,9 @@ abbr -a vhs 'docker run --rm -v $PWD:/vhs ghcr.io/charmbracelet/vhs'
 abbr -a v '$EDITOR'
 abbr -a vi '$EDITOR'
 abbr -a vim '$EDITOR'
-abbr -a y 'yarn'
+abbr -a y yarn
 
 source ~/.config/fish/autojump.fish
-rtx activate fish | source
+source ~/.config/fish/shipt.fish
+mise activate fish | source
 starship init fish | source
