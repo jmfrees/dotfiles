@@ -13,7 +13,6 @@ return {
       },
     },
   },
-  { "RRethy/vim-illuminate" }, -- highlight same symbol elsewhere
   -- Reduce animations
   {
     "echasnovski/mini.animate",
@@ -33,16 +32,5 @@ return {
     config = function(_, opts)
       require("mini.animate").setup(opts)
     end,
-  },
-
-  -- which-key
-  {
-    "folke/which-key.nvim",
-    optional = true,
-    opts = {
-      defaults = {
-        ["<leader>t"] = { name = "+test" },
-      },
-    },
   },
 }
