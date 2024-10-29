@@ -147,6 +147,7 @@ abbr -a gsts 'git stash show --text'
 abbr -a gwc 'git whatchanged -p --abbrev-commit --pretty=medium'
 abbr -a hg 'kitty +kitten hyperlinked_grep'
 abbr -a icat 'kitty +kitten icat'
+abbr -a j z
 abbr -a m make
 abbr -a mb 'make build'
 abbr -a mbf 'make build-force'
@@ -174,7 +175,7 @@ abbr -a vi '$EDITOR'
 abbr -a vim '$EDITOR'
 abbr -a y yarn
 
-source ~/.config/fish/autojump.fish
 source ~/.config/fish/shipt.fish
+zoxide init fish | source
 mise activate fish | source
 starship init fish | source
