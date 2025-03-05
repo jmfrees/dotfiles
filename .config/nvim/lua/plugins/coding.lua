@@ -25,7 +25,7 @@ return {
           "prettier",
           "python-black",
           "rust_analyzer",
-          "rustfmt",
+          -- "rustfmt",
           "shellharden",
           "sql_formatter",
           "stylua",

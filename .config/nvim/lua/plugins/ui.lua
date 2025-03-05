@@ -13,41 +13,4 @@ return {
       },
     },
   },
-  -- Reduce animations
-  {
-    "echasnovski/mini.animate",
-    event = "VeryLazy",
-    opts = function()
-      local animate = require("mini.animate")
-      return {
-        cursor = {
-          timing = animate.gen_timing.linear({ duration = 150, unit = "total" }),
-        },
-        resize = { enable = false },
-        scroll = { enable = false },
-        open = { enable = false },
-        close = { enable = false },
-      }
-    end,
-    config = function(_, opts)
-      require("mini.animate").setup(opts)
-    end,
-  },
-  {
-    "christoomey/vim-tmux-navigator",
-    cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
-    },
-    keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-    },
-  },
 }
