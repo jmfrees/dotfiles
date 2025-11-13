@@ -79,10 +79,25 @@
 #network {
   border-radius: 1rem 0 0 1rem;
 } /* leftmost */
-#tray {
+
+/* Clock is rightmost of unified bar */
+#clock.time {
   border-radius: 0 1rem 1rem 0;
   margin-right: 0.5rem;
-} /* rightmost */
+}
+
+/* Tray styled as separate capsule */
+#tray {
+  border-radius: 1rem;
+  margin: 5px 0.5rem 5px 0.5rem;
+}
+
+/* Hide tray when empty */
+#tray.empty {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
 
 /* Separator between right-side modules */
 #network + *,
