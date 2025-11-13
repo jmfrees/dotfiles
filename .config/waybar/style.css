@@ -3,60 +3,48 @@
 /* ──────────────── Global ──────────────── */
 * {
   font-family: "FiraCode Nerd Font";
-  font-size: 17px;
-  min-height: 0;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
 }
 
+/* ──────────────── Waybar container ──────────────── */
 #waybar {
   background: transparent;
   color: @text;
   margin: 5px;
 }
 
-/* ──────────────── Workspaces & Taskbar ──────────────── */
+/* ──────────────── Left-Side Modules ──────────────── */
 #workspaces,
-#taskbar {
-  background-color: @surface0;
-  border-radius: 1rem;
-  margin: 5px 1rem;
-  color: @text;
-}
-
-#workspaces button,
-#taskbar button {
-  border-radius: 1rem;
-  padding: 0.4rem 0.8rem;
-  color: @lavender;
-}
-
-#workspaces button.active,
-#taskbar button.active {
-  color: @sky;
-}
-#workspaces button:hover,
-#taskbar button:hover {
-  color: @sapphire;
-}
-
-/* ──────────────── Window ──────────────── */
-#window {
-  background-color: @surface0;
-  color: @text;
-  padding: 0.4rem 1rem;
-  border-radius: 1rem;
-  margin: 5px;
-}
-
-/* ──────────────── Custom modules ──────────────── */
+#taskbar,
+#window,
 #custom-music,
 #custom-beattime,
 #custom-lock,
 #custom-power {
+  padding: 0.3rem 0.8rem; /* match right-side height */
+  margin: 5px 5px;
+  border-radius: 1rem; /* capsule look */
   background-color: @surface0;
-  padding: 0.5rem 1rem;
-  margin: 5px 0;
 }
 
+#workspaces button,
+#taskbar button {
+  color: @subtext1; /* unselected workspace */
+}
+
+#workspaces button.active,
+#taskbar button.active {
+  color: @sky; /* active workspace */
+}
+
+#workspaces button:hover,
+#taskbar button:hover {
+  color: @sapphire; /* hover state */
+}
+
+/* Custom module colors */
 #custom-music {
   color: @mauve;
 }
@@ -65,12 +53,9 @@
 }
 #custom-lock {
   color: @lavender;
-  border-radius: 1rem 0 0 1rem;
 }
 #custom-power {
   color: @red;
-  border-radius: 0 1rem 1rem 0;
-  margin-right: 1rem;
 }
 
 /* ──────────────── Right-Side Capsule Modules ──────────────── */
@@ -85,20 +70,21 @@
 #clock.date,
 #clock.time,
 #tray {
-  padding: 6px 12px;
-  border-radius: 0;
+  padding: 0.5rem 0.8rem; /* same vertical padding as left-side */
   background-color: @surface0;
+  margin: 5px 0px;
 }
 
-/* Rounded ends */
+/* Rounded ends for right-side bar */
 #network {
   border-radius: 1rem 0 0 1rem;
-}
+} /* leftmost */
 #tray {
   border-radius: 0 1rem 1rem 0;
-}
+  margin-right: 0.5rem;
+} /* rightmost */
 
-/* Separator between modules */
+/* Separator between right-side modules */
 #network + *,
 #cpu + *,
 #temperature + *,
@@ -112,23 +98,12 @@
   border-left: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* ──────────────── Module Colors ──────────────── */
+/* Right-side module colors */
 #network {
   color: @sapphire;
 }
 #cpu {
   color: @mauve;
-}
-#cpu.warning,
-#temperature.warning,
-#memory.warning {
-  color: @yellow;
-}
-#cpu.critical,
-#temperature.critical,
-#memory.critical {
-  color: @red;
-  animation: blink-critical 1s linear infinite alternate;
 }
 #temperature {
   color: @flamingo;
@@ -148,16 +123,6 @@
 #battery {
   color: @green;
 }
-#battery.charging {
-  color: @green;
-}
-#battery.warning:not(.charging),
-#battery.critical:not(.charging) {
-  color: @red;
-}
-#battery.critical:not(.charging) {
-  animation: blink-critical 1s linear infinite alternate;
-}
 #clock.date {
   color: @lavender;
 }
@@ -168,7 +133,22 @@
   color: @text;
 }
 
-/* ──────────────── Blink Animation ──────────────── */
+/* Warnings & Critical States */
+#cpu.warning,
+#temperature.warning,
+#memory.warning {
+  color: @yellow;
+}
+
+#cpu.critical,
+#temperature.critical,
+#memory.critical,
+#battery.critical:not(.charging) {
+  color: @red;
+  animation: blink-critical 1s linear infinite alternate;
+}
+
+/* Blink animation */
 @keyframes blink-critical {
   to {
     background-color: @red;

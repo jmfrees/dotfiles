@@ -111,7 +111,7 @@
     "memory":{
         "interval": 10,
         "format": "󰍛",
-        "format-alt": "󰍛 {used:0.1f}G/{total:0.1f}G",
+        "format-alt": "󰍛  {used:0.1f}G/{total:0.1f}G",
         "states": {
             "warning": 60,
             "critical": 80,
@@ -167,9 +167,9 @@
         "format-ethernet": "󰈀 {ipaddr}",
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󰖪",
-        "format-alt": "{icon} {ipaddr} via {essid}",
-        "format-alt-wifi": "{icon} {ipaddr} via {essid}",
-        "format-alt-ethernet": "{icon} {ipaddr}",
+        "format-alt": "{icon}  {ipaddr} via {essid}",
+        "format-alt-wifi": "{icon}  {ipaddr} via {essid}",
+        "format-alt-ethernet": "{icon}  {ipaddr}",
         "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
         "tooltip": false,
     },
