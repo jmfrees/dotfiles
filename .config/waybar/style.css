@@ -1,0 +1,177 @@
+@import "mocha.css";
+
+/* ──────────────── Global ──────────────── */
+* {
+  font-family: "FiraCode Nerd Font";
+  font-size: 17px;
+  min-height: 0;
+}
+
+#waybar {
+  background: transparent;
+  color: @text;
+  margin: 5px;
+}
+
+/* ──────────────── Workspaces & Taskbar ──────────────── */
+#workspaces,
+#taskbar {
+  background-color: @surface0;
+  border-radius: 1rem;
+  margin: 5px 1rem;
+  color: @text;
+}
+
+#workspaces button,
+#taskbar button {
+  border-radius: 1rem;
+  padding: 0.4rem 0.8rem;
+  color: @lavender;
+}
+
+#workspaces button.active,
+#taskbar button.active {
+  color: @sky;
+}
+#workspaces button:hover,
+#taskbar button:hover {
+  color: @sapphire;
+}
+
+/* ──────────────── Window ──────────────── */
+#window {
+  background-color: @surface0;
+  color: @text;
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  margin: 5px;
+}
+
+/* ──────────────── Custom modules ──────────────── */
+#custom-music,
+#custom-beattime,
+#custom-lock,
+#custom-power {
+  background-color: @surface0;
+  padding: 0.5rem 1rem;
+  margin: 5px 0;
+}
+
+#custom-music {
+  color: @mauve;
+}
+#custom-beattime {
+  color: @blue;
+}
+#custom-lock {
+  color: @lavender;
+  border-radius: 1rem 0 0 1rem;
+}
+#custom-power {
+  color: @red;
+  border-radius: 0 1rem 1rem 0;
+  margin-right: 1rem;
+}
+
+/* ──────────────── Right-Side Capsule Modules ──────────────── */
+#network,
+#cpu,
+#temperature,
+#memory,
+#disk,
+#pulseaudio,
+#pulseaudio.source,
+#battery,
+#clock.date,
+#clock.time,
+#tray {
+  padding: 6px 12px;
+  border-radius: 0;
+  background-color: @surface0;
+}
+
+/* Rounded ends */
+#network {
+  border-radius: 1rem 0 0 1rem;
+}
+#tray {
+  border-radius: 0 1rem 1rem 0;
+}
+
+/* Separator between modules */
+#network + *,
+#cpu + *,
+#temperature + *,
+#memory + *,
+#disk + *,
+#pulseaudio + *,
+#pulseaudio.source + *,
+#battery + *,
+#clock.date + *,
+#clock.time + * {
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ──────────────── Module Colors ──────────────── */
+#network {
+  color: @sapphire;
+}
+#cpu {
+  color: @mauve;
+}
+#cpu.warning,
+#temperature.warning,
+#memory.warning {
+  color: @yellow;
+}
+#cpu.critical,
+#temperature.critical,
+#memory.critical {
+  color: @red;
+  animation: blink-critical 1s linear infinite alternate;
+}
+#temperature {
+  color: @flamingo;
+}
+#memory {
+  color: @teal;
+}
+#disk {
+  color: @blue;
+}
+#pulseaudio {
+  color: @maroon;
+}
+#pulseaudio.source {
+  color: @peach;
+}
+#battery {
+  color: @green;
+}
+#battery.charging {
+  color: @green;
+}
+#battery.warning:not(.charging),
+#battery.critical:not(.charging) {
+  color: @red;
+}
+#battery.critical:not(.charging) {
+  animation: blink-critical 1s linear infinite alternate;
+}
+#clock.date {
+  color: @lavender;
+}
+#clock.time {
+  color: @blue;
+}
+#tray {
+  color: @text;
+}
+
+/* ──────────────── Blink Animation ──────────────── */
+@keyframes blink-critical {
+  to {
+    background-color: @red;
+    color: @base;
+  }
+}

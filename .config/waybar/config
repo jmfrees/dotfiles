@@ -1,0 +1,204 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    // "height": 30, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 0, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["wlr/taskbar"],
+    "modules-right": ["network", "cpu", "temperature", "memory", "disk#root", "pulseaudio#output", "pulseaudio#source", "battery", "clock#date", "clock#time", "tray"],
+
+    // Modules configuration
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "active-only": false,
+        "all-outputs": false,
+        "warp-on-scroll": false,
+        "format": " {icon} <small>{windows}</small> ",
+        "format-window-separator": "  ",
+        "format-icons": {
+            "1": "➊",
+            "2": "➋",
+            "3": "➌",
+            "4": "➍",
+            "5": "➎",
+            "6": "➏",
+            "7": "➐",
+            "8": "➑",
+            "9": "➒",
+            "10": "➓",
+            // "urgent": "",
+            // "focused": "",
+            // "empty": "",
+            // "default": "",
+            // "active": ""
+        },
+        "window-rewrite-default": "",
+        "window-rewrite": {
+            "class<firefox>": "",
+            "class<firefox> title<.*Discord.*>": "󰙯",
+            "class<firefox> title<.*Telegram.*>": "",
+            "class<firefox> title<.*youtube.*>": "",
+            "class<firefox> title<.*github.*>": "",
+            "class<firefox> title<.*gitlab.*>": "",
+            "class<kitty>": "",
+            "class<kitty> title<nvim.*>": "",
+            "class<org.telegram.desktop>": "",
+            "class<Discord>": "󰙯",
+          },
+    },
+    "hyprland/window": {
+      "max-length": 200,
+      "separate-outputs": true,
+    },
+    "wlr/taskbar": {
+        "format": " {icon} ",
+        "tooltip-format": "{name}: {title}",
+        "on-click": "activate",
+    },
+    "tray": {
+        // "icon-size": 21,
+        "show-passive-items": true,
+        "spacing": 10,
+    },
+    "custom/weather": {
+      "format": "{}", // TODO: cut to only first character, which should be an icon
+      "format-alt": "{}",
+      "exec": "curl -s 'wttr.in/?format=%c+%l:+%C+%t+%w+%h' | sed 's/,.*:/:/g' | sed 's/  / /g'",
+      "interval": 1800,
+
+    },
+    "clock#date": {
+        "interval": 600,
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "format": "{:%a %F}",
+    },
+    "clock#time": {
+        "interval": 10,
+        "format": "{:%H:%M}",
+        "tooltip": false,
+    },
+    "clock#UTC": {
+        "interval": 10,
+        "format": "{:%H:%M} UTC",
+        "tooltip": false,
+        "timezone": "UTC",
+      },
+    "custom/beattime": {
+        "interval": 5,
+        "exec": "printf \"%03d\n\" \"$((((($(date +%s)+3600)%86400)*10)/864))\"",
+        "format": " @{} ",
+      },
+    "cpu": {
+        "interval": 10,
+        "format": "",
+        "format-alt": " {usage}% ({load})",
+        "states": {
+            "warning": 70,
+            "critical": 85,
+        },
+        "tooltip": false,
+    },
+    "temperature": {
+        "interval": 10,
+        "critical-threshold": 80,
+        "format": "{icon}",
+        "format-alt": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": false,
+    },
+    "memory":{
+        "interval": 10,
+        "format": "󰍛",
+        "format-alt": "󰍛 {used:0.1f}G/{total:0.1f}G",
+        "states": {
+            "warning": 60,
+            "critical": 80,
+        },
+        "tooltip": false
+    },
+    "disk#root": {
+      "interval": 60,
+      "path": "/",
+      "format": "🖴",
+      "format-alt": "🖴 {percentage_used}%: {used} / {total}",
+      "states": {
+          // "good": 95,
+          "warning": 25,
+          "critical": 10
+      },
+      "tooltip": false,
+    },
+    "disk#home": {
+      "interval": 60,
+      "path": "/home",
+      "format": "󰋞",
+      "format-alt": "󰋞 {percentage_used}%: {used} / {total}",
+      "states": {
+          // "good": 95,
+          "warning": 25,
+          "critical": 10
+      },
+      "tooltip": false,
+    },
+    "backlight": {
+        "format": "{icon}",
+        "format-alt": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "tooltip": false,
+    },
+    "battery": {
+        "interval": 10,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip": false,
+    },
+    "network": {
+        "interval": 10,
+        "format": "{icon}",
+        "format-wifi": "{icon}",
+        "format-ethernet": "󰈀 {ipaddr}",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪",
+        "format-alt": "{icon} {ipaddr} via {essid}",
+        "format-alt-wifi": "{icon} {ipaddr} via {essid}",
+        "format-alt-ethernet": "{icon} {ipaddr}",
+        "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
+        "tooltip": false,
+    },
+    "pulseaudio#output": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-bluetooth-muted": "󰝟 ",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "scroll-step": 1.0,
+        "tooltip": false
+    },
+    "pulseaudio#source": {
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        // "on-scroll-up": "pactl set-source-volume 0 +1%",
+        // "on-scroll-down": "pactl set-source-volume 0 -1%",
+        "on-click": "pavucontrol",
+        // "scroll-step": 0.5,
+        "tooltip": false,
+    },
+}

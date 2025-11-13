@@ -1,0 +1,24 @@
+configuration {
+	modi: "combi,window,drun,ssh,run,filebrowser";
+	font: "TerminessNerdFont 15";
+	combi-modi: "window,drun,ssh,run";
+    show-icons: true;
+    terminal: "kitty --single-instance";
+    icon-theme: "Papirus";
+    drun-show-actions: true;
+    parse-hosts: true;
+    parse-known-hosts: true;
+    m: "-1";
+    matching: "fuzzy";
+    normalize-match: true;
+    steal-focus: true;
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+}
+@theme "theme"
