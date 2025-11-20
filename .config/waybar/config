@@ -93,7 +93,7 @@
     "cpu": {
         "interval": 10,
         "format": "",
-        "format-alt": " {usage}% ({load})",
+        "format-alt": "  {usage}% ({load})",
         "states": {
             "warning": 70,
             "critical": 85,
