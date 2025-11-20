@@ -35,13 +35,6 @@ return {
       })
     end,
   },
-  -- Add/change/delete surrounding delimiter pairs
-  {
-    "kylechui/nvim-surround",
-    version = "*",
-    config = true,
-    event = "VeryLazy",
-  },
   {
     "nvim-lspconfig",
     opts = {
